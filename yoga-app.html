@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141414">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Yoga Note">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%23141414'/><text x='90' y='125' font-size='100' text-anchor='middle' fill='%23C8E6A0'>🧘</text></svg>">
+<title>Yoga Sequence Note</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=DM+Sans:wght@400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--pri50:#f2f2f2;--pri100:#e0e0e0;--pri200:#c0c0c0;--pri400:#888;--pri500:#555;--pri600:#444;--pri800:#222;
+--acc50:#f0eefa;--acc100:#d8d4f0;--acc200:#B8B4E8;--acc400:#8A84D0;--acc500:#6B64C0;--acc600:#4A44A0;--acc800:#2A2468;
+--n50:#fafafa;--n100:#f0f0f0;--n200:#ddd;--n400:#aaa;--n600:#888;--n800:#444;--n900:#1a1a1a;
+--wu-bg:#f0f8e4;--wu-bar:#C8E6A0;--wu-txt:#2a4a10;
+--bu-bg:#e4f4ee;--bu-bar:#70C8B0;--bu-txt:#0a3a2a;
+--pk-bg:#e4f8f4;--pk-bar:#A0E8E0;--pk-txt:#0a4a4a;
+--cd-bg:#eeedf8;--cd-bar:#B8B4E8;--cd-txt:#2A2468;
+--s-bg:#e4f4ee;--s-txt:#0a3a2a;--s-bd:#70C8B0;
+--w-bg:#f0f8e4;--w-txt:#2a4a10;--w-bd:#C8E6A0;
+--d-bg:#fce8e8;--d-txt:#791F1F;--d-bd:#F09595;
+--i-bg:#e4f8f4;--i-txt:#0a4a4a;--i-bd:#A0E8E0;
+--serif:'Noto Serif KR',Georgia,serif;
+--sans:'Noto Sans KR','DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+--r-sm:6px;--r-md:10px;--r-lg:16px;--r-full:9999px;
+--tr:150ms ease;
+}
+[data-theme=light]{
+--bg:#fff;--bg2:#fafafa;--bg3:#f0f0f0;--bgApp:#f5f5f5;
+--t1:#1a1a1a;--t2:#888;--t3:#aaa;
+--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.12);
+--card:rgba(255,255,255,1);--cardBd:rgba(0,0,0,.07);
+--navBg:rgba(255,255,255,.9);--navAct:#4A9A30;--navIn:#aaa;
+--pillAct:#70C8B0;--pillActT:#0a3a2a;--pillIn:#f0f0f0;--pillInT:#888;
+}
+[data-theme=dark]{
+--bg:#141414;--bg2:#1c1c1c;--bg3:#242424;--bgApp:#0a0a0a;
+--t1:#e8e8e8;--t2:#888;--t3:#555;
+--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.1);
+--card:rgba(255,255,255,.04);--cardBd:rgba(255,255,255,.06);
+--navBg:rgba(20,20,20,.94);--navAct:#C8E6A0;--navIn:#555;
+--pillAct:#70C8B0;--pillActT:#0a3a2a;--pillIn:rgba(255,255,255,.06);--pillInT:#888;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:#e0e0e0;color:var(--t1);line-height:1.6;min-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+[data-theme=dark] body{background:#080808}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+input,select,textarea{font-family:inherit}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--n200);border-radius:9px}
+
+.app{width:390px;height:min(844px,100dvh);display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden;border-radius:24px;border:.5px solid var(--bd)}
+@media(max-width:430px){.app{width:100%;height:100dvh;border-radius:0;border:none}body{background:var(--bgApp)}}
+.page{flex:1;overflow-y:auto;padding-bottom:64px;-webkit-overflow-scrolling:touch}
+.page.hidden{display:none}
+
+/* Nav */
+.nav{position:absolute;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--navBg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:.5px solid var(--bd);padding:6px 0 8px;z-index:100;border-radius:0 0 24px 24px}
+@media(max-width:430px){.nav{border-radius:0;padding-bottom:env(safe-area-inset-bottom,8px)}}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;color:var(--navIn);transition:color var(--tr)}
+.nav button.on{color:var(--navAct)}
+.nav button:active{transform:scale(.9);opacity:.7}
+.nav-lbl{font-size:11px;font-weight:500}
+
+/* Common */
+.card{background:var(--card);border:.5px solid var(--cardBd);border-radius:var(--r-lg);padding:14px 16px;transition:all var(--tr)}
+.card:hover{border-color:var(--bd2)}
+.card:active{transform:scale(.98);opacity:.9}
+.badge{font-size:11px;padding:2px 8px;border-radius:var(--r-sm);font-weight:500;white-space:nowrap}
+.b-beg{background:var(--i-bg);color:var(--i-txt)}.b-int{background:var(--w-bg);color:var(--w-txt)}
+.b-adv{background:rgba(184,180,232,.15);color:#8A84D0}.b-all{background:var(--s-bg);color:var(--s-txt)}
+.b-ai{background:rgba(184,180,232,.15);color:#B8B4E8}
+.pill{font-size:12px;padding:5px 12px;border-radius:var(--r-full);cursor:pointer;white-space:nowrap;background:var(--pillIn);color:var(--pillInT);transition:all .2s cubic-bezier(.25,.1,.25,1)}
+.pill.on{background:var(--pillAct);color:var(--pillActT)}
+.pill:active{transform:scale(.93)}
+.btn-pri{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r-md);background:#6B64C0;color:#fff;font-size:13px;font-weight:500;transition:opacity var(--tr)}
+.btn-pri:hover{opacity:.9}.btn-pri:active{transform:scale(.98)}
+.btn-sec{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r-md);border:.5px solid var(--bd2);color:var(--t1);font-size:13px;font-weight:500}
+.input{width:100%;padding:8px 12px;font-size:16px;border:.5px solid var(--bd);border-radius:var(--r-md);background:var(--bg2);color:var(--t1);outline:none}
+.input:focus{border-color:#70C8B0}
+.input::placeholder{color:var(--t3)}
+.select{padding:4px 8px;font-size:16px;border:.5px solid var(--bd);border-radius:var(--r-sm);background:var(--bg2);color:var(--t2);outline:none}
+.textarea{width:100%;padding:8px 12px;font-size:16px;border:.5px solid var(--bd);border-radius:var(--r-md);background:var(--bg2);color:var(--t1);outline:none;resize:vertical;min-height:60px}
+.back{display:flex;padding:4px;color:var(--t2)}
+.sec-bar{width:4px;border-radius:2px;flex-shrink:0}
+.sb-wu{background:var(--wu-bar)}.sb-bu{background:var(--bu-bar)}.sb-pk{background:var(--pk-bar)}.sb-cd{background:var(--cd-bar)}
+.sp-wu:not(.on){background:var(--wu-bg);color:var(--wu-txt)}.sp-bu:not(.on){background:var(--bu-bg);color:var(--bu-txt)}
+.sp-pk:not(.on){background:var(--pk-bg);color:var(--pk-txt)}.sp-cd:not(.on){background:var(--cd-bg);color:var(--cd-txt)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-wu{background:var(--wu-bar)}.dot-bu{background:var(--bu-bar)}.dot-pk{background:var(--pk-bar)}.dot-cd{background:var(--cd-bar)}
+
+/* Home */
+.home-hdr{padding:24px 20px 16px;display:flex;justify-content:space-between;align-items:flex-start}
+.home-hdr h1{font-family:var(--serif);font-size:22px;font-weight:300;margin-top:6px;letter-spacing:-.2px;line-height:1.2}
+.app-name{font-size:10px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
+.icon-btn{width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--t2)}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 20px}
+.sec-title{font-size:13px;font-weight:500;letter-spacing:.3px;color:var(--t1)}
+.sec-link{font-size:12px;color:var(--pri500);cursor:pointer}
+.sec-meta{font-size:12px;color:var(--t3)}
+.today-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none}
+.today-scroll::-webkit-scrollbar{display:none}
+.cls-card{min-width:180px;padding:14px 16px;border-radius:var(--r-md);background:var(--bg2);cursor:pointer;flex-shrink:0;transition:all .2s ease}
+.cls-card:active{transform:scale(.96);opacity:.9}
+.cls-next{background:#C8E6A0}
+.cls-next .cls-time{color:#2a4a10;font-weight:500}
+.cls-next .cls-name{color:#2a4a10}
+.cls-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cls-time{font-size:12px;font-weight:500;color:var(--t2)}
+.b-next{font-size:11px;background:rgba(0,0,0,.12);color:#2a4a10;padding:1px 6px;border-radius:4px}
+.cls-name{font-size:15px;font-weight:500;color:var(--t1)}
+.cls-add{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:120px;gap:4px;border:.5px dashed var(--bd2);background:transparent;color:var(--t3);font-size:12px;border-radius:var(--r-md);cursor:pointer}
+.home-acts{padding:0 20px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act-card{padding:16px 18px;border-radius:var(--r-md);cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1)}
+.act-card:hover{transform:translateY(-2px)}
+.act-card:active{transform:scale(.96);opacity:.9}
+.act-new{background:#B2E0D6;border-radius:var(--r-lg)}.act-new .act-t{color:#0a3a2a}.act-new .act-d{color:rgba(10,58,42,.6)}.act-new svg{color:#0a3a2a}
+.act-ai{background:#B8B4E8;border-radius:var(--r-lg)}.act-ai .act-t{color:#1a1648}.act-ai .act-d{color:rgba(26,22,72,.6)}.act-ai svg{color:#1a1648}
+.act-t{font-size:14px;font-weight:500;margin-top:10px}
+.act-d{font-size:12px;margin-top:2px}
+.seq-card{margin:0 20px 10px;cursor:pointer}
+.seq-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.seq-info{flex:1;min-width:0}
+.seq-title{font-size:15px;font-weight:500;color:var(--t1)}
+.seq-meta{font-size:12px;color:var(--t2);margin-top:4px}
+.seq-badges{display:flex;gap:4px;flex-shrink:0}
+.seq-time{font-size:11px;color:var(--t3);margin-top:8px}
+
+/* Editor */
+.ed-hdr{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:.5px solid var(--bd)}
+.btn-del-seq{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--t3);transition:all var(--tr)}
+.btn-del-seq:active{color:var(--d-txt);background:var(--d-bg)}
+.ed-name{width:100%;font-family:var(--sans);font-size:18px;font-weight:500;border:none;outline:none;background:transparent;color:var(--t1);padding:0;margin-bottom:10px;letter-spacing:0}
+.ed-name::placeholder{color:var(--t3)}
+.ed-meta{padding:14px 20px;border-bottom:.5px solid var(--bd)}
+.ed-meta-row{display:flex;gap:8px;flex-wrap:wrap}
+.ed-filt{padding:10px 20px;display:flex;gap:6px;overflow-x:auto;border-bottom:.5px solid var(--bd);scrollbar-width:none}
+.ed-filt::-webkit-scrollbar{display:none}
+.ed-poses{flex:1;padding:12px 20px;overflow-y:auto}
+.sec-lbl{display:flex;align-items:center;gap:6px;padding:4px 0;margin:14px 0 6px;font-size:11px;font-weight:500;color:var(--t2)}
+.sec-opt{font-size:11px;color:var(--t3);font-style:italic;font-weight:400}
+.pose{display:flex;align-items:center;gap:10px;padding:12px 14px;border:.5px solid var(--cardBd);border-radius:var(--r-md);margin-bottom:8px;cursor:grab;background:var(--card);transition:all var(--tr)}
+.pose:hover{border-color:var(--bd2)}
+.pose.drag{opacity:.4}
+.pose-grip{color:var(--t3);opacity:.35;flex-shrink:0;display:flex}
+.pose-body{flex:1;min-width:0}
+.pose-row{display:flex;justify-content:space-between;align-items:center}
+.pose-nm{font-size:15px;font-weight:500;color:var(--t1)}
+.pose-hd{font-size:11px;color:var(--t3)}
+.pose-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.pose-del{color:var(--t3);padding:4px;transition:opacity var(--tr);flex-shrink:0;display:flex;opacity:.5}
+@media(hover:hover){.pose-del{opacity:0}.pose:hover .pose-del{opacity:1}}
+.pose-del:active{color:var(--d-txt);opacity:1}
+.pose-empty{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border:.5px dashed var(--bd2);border-radius:var(--r-md);color:var(--t3);font-size:12px;cursor:pointer;margin-bottom:6px}
+.pose-empty:hover{background:var(--bg2)}
+.sec-drop-zone{padding:2px 0;border-radius:var(--r-md);border:2px solid transparent;transition:border-color var(--tr),background var(--tr)}
+.sec-drop-zone.drop-hover{border-color:#70C8B0;background:rgba(112,200,176,.06)}
+.drop-placeholder{padding:12px;text-align:center;font-size:11px;color:var(--t3);border:.5px dashed transparent;border-radius:var(--r-md);transition:all var(--tr)}
+.sec-drop-zone.drop-hover .drop-placeholder{border-color:rgba(112,200,176,.3);color:#70C8B0}
+.pose.drag{opacity:.3}
+.pose-grip{touch-action:none;-webkit-user-select:none;user-select:none;padding:8px 4px;margin:-8px -4px}
+.pose{-webkit-user-select:none;user-select:none}
+.ed-poses{-webkit-user-select:none;user-select:none}
+.ed-acts{padding:8px 20px;display:flex;gap:8px}
+.ed-abtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:var(--r-md);font-size:13px;font-weight:500;transition:all var(--tr)}
+.ed-abtn:active{transform:scale(.98)}
+.ea-add{background:rgba(112,200,176,.12);color:#70C8B0}
+.ea-flow{background:var(--pk-bg);color:var(--pk-txt)}
+.ea-ai{background:var(--acc50);color:var(--acc800)}
+.sec-add-wrap{position:relative;margin:4px 0 8px}
+.sec-add-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;border-radius:var(--r-md);background:transparent;border:.5px dashed var(--bd2);color:var(--t3);font-size:12px;cursor:pointer;transition:all var(--tr)}
+.sec-add-btn:hover{background:var(--bg2);color:var(--t2);border-color:var(--t3)}
+.sec-add-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;background:var(--bg);border:.5px solid var(--bd2);border-radius:var(--r-md);padding:4px;display:flex;flex-direction:column;min-width:180px;z-index:50;animation:popIn .2s cubic-bezier(.25,.1,.25,1)}
+.sec-add-menu.hidden{display:none}
+.sec-add-menu button{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:13px;color:var(--t1);background:none;border:none;border-radius:var(--r-sm);cursor:pointer;transition:background var(--tr);text-align:left;width:100%}
+.sec-add-menu button:hover{background:var(--bg2)}
+.sec-add-menu button svg{color:var(--t2);flex-shrink:0}
+
+.flow-group{border:2px solid var(--pk-bar);border-radius:12px;margin-bottom:6px;overflow:hidden;background:var(--card);-webkit-user-select:none;user-select:none}
+.flow-header{background:var(--pk-bg);padding:6px 12px;display:flex;justify-content:space-between;align-items:center;touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab}
+.flow-header-left{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--pk-txt)}
+.flow-repeat-badge{font-size:11px;background:var(--acc200);color:var(--pk-txt);padding:1px 8px;border-radius:4px}
+.flow-poses{padding:4px 12px}
+.flow-pose-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:.5px solid var(--bd)}
+.flow-pose-item:last-child{border-bottom:none}
+.flow-pose-num{width:18px;height:18px;border-radius:50%;background:var(--pk-bg);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--pk-txt);font-weight:500;flex-shrink:0}
+.flow-footer{background:var(--pk-bg);padding:6px 12px;display:flex;justify-content:center}
+.flow-add-btn{font-size:11px;color:var(--pk-txt);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px}
+.ed-bar{padding:8px 20px;border-top:.5px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.ed-stats{display:flex;gap:4px;font-size:12px;color:var(--t2)}
+
+/* List */
+.list-hdr{padding:12px 20px}
+.list-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.list-top h1{font-family:var(--sans);font-size:18px;letter-spacing:0;font-weight:500}
+.search-wrap{flex:1;display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg2);border-radius:var(--r-md);border:.5px solid var(--bd);color:var(--t3)}
+.search-in{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:var(--t1)}
+.search-in::placeholder{color:var(--t3)}
+.list-filt{padding:8px 20px;display:flex;gap:6px;overflow-x:auto;border-bottom:.5px solid var(--bd);scrollbar-width:none}
+.list-filt::-webkit-scrollbar{display:none}
+.list-sort{padding:8px 20px;display:flex;gap:4px}
+.sort-btn{font-size:11px;padding:3px 8px;border-radius:4px;background:var(--bg2);color:var(--t2);cursor:pointer}
+.sort-btn.on{background:var(--pri50);color:var(--pri600)}
+.list-body{padding:0 20px 12px}
+
+/* AI */
+.ai-hdr{padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:.5px solid var(--bd)}
+.ai-form{padding:16px 20px}
+.fg{margin-bottom:16px}
+.fg-lbl{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:6px}
+.fg-opt{font-weight:400;color:var(--t3)}
+.fg-hint{font-size:11px;color:var(--t3);margin-top:4px}
+.chip-group{display:flex;gap:6px;flex-wrap:wrap}
+.pill.on-alt{background:rgba(200,230,160,.2);color:#C8E6A0}
+.dur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dur-card{padding:12px;text-align:center;border-radius:var(--r-md);background:var(--bg2);border:.5px solid var(--bd);cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1)}
+.dur-card:active{transform:scale(.95)}
+.dur-card.on{background:#70C8B0;border-color:#70C8B0}
+.dur-num{font-size:20px;font-weight:500;display:block}
+.dur-card.on .dur-num{color:#fff}
+.dur-card:not(.on) .dur-num{color:var(--t2)}
+.dur-unit{font-size:11px;display:block;margin-top:2px}
+.dur-card.on .dur-unit{color:rgba(255,255,255,.7)}
+.dur-card:not(.on) .dur-unit{color:var(--t3)}
+.gen-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#6B64C0;color:#fff;border-radius:var(--r-md);font-size:14px;font-weight:500}
+.gen-btn:hover{opacity:.9}.gen-btn:active{transform:scale(.97)}.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top:2px solid #fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Settings */
+.set-hdr{padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:.5px solid var(--bd)}
+.set-body{padding:20px 20px}
+.set-sec{font-size:10px;color:var(--t3);letter-spacing:1.5px;margin-bottom:10px;margin-top:8px}
+.set-card{background:var(--card);border:.5px solid var(--cardBd);border-radius:var(--r-md);padding:12px;margin-bottom:8px}
+.set-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.set-it{font-size:14px;font-weight:500;color:var(--t1)}
+.b-conn{background:var(--s-bg);color:var(--s-txt)}.b-disc{background:var(--d-bg);color:var(--d-txt)}
+.api-row{display:flex;gap:8px}
+.api-in{flex:1;font-family:monospace;font-size:16px}
+.set-hint{font-size:11px;color:var(--t3);margin-top:4px}
+.set-grp{border:.5px solid var(--cardBd);border-radius:var(--r-md);overflow:hidden;margin-bottom:16px}
+.set-row{display:flex;justify-content:space-between;align-items:center;padding:12px;color:var(--t2)}
+.set-row.brd{border-bottom:.5px solid var(--bd)}
+.set-row.clk{cursor:pointer;transition:all var(--tr)}
+.set-row.clk:hover{background:var(--bg2)}
+.set-row.clk:active{transform:scale(.98);opacity:.8}
+.lang-tog{display:flex;background:var(--bg2);border-radius:var(--r-md);overflow:hidden;border:.5px solid var(--bd)}
+.lang-btn{font-size:12px;padding:4px 12px;color:var(--t2);transition:all var(--tr)}
+.lang-btn.on{background:var(--t1);color:var(--bg)}
+.tog-track{position:relative;width:36px;height:20px;background:var(--bd);border-radius:10px;cursor:pointer;transition:background .25s cubic-bezier(.25,.1,.25,1)}
+.tog-track.on{background:#70C8B0}
+.tog-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.tog-track.on .tog-thumb{transform:translateX(16px)}
+.dng{color:var(--d-txt)!important}
+
+/* Modal */
+.modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;z-index:200;animation:modalBgIn .2s ease}
+.modal-bg.hidden{display:none}
+.modal{background:var(--bg);border-radius:20px 20px 0 0;padding:24px 20px;width:100%;height:80vh;display:flex;flex-direction:column;overflow:hidden;animation:modalIn .3s cubic-bezier(.25,.1,.25,1)}
+.modal h3{font-family:var(--sans);font-weight:500;font-size:16px;margin-bottom:16px}
+.asana-row{display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:var(--r-md);cursor:pointer;transition:background .15s ease}
+@media(hover:hover){.asana-row:hover{background:var(--bg2)}}
+.asana-row:active{background:var(--bg2);opacity:.8}
+.mf{margin-bottom:12px}
+.mf label{display:block;font-size:12px;font-weight:500;color:var(--t2);margin-bottom:4px}
+.mf-row{display:flex;gap:8px}
+.modal-acts{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+
+/* Anim */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalIn{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalBgIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:translateX(-50%) scale(.95) translateY(8px)}to{opacity:1;transform:translateX(-50%) scale(1) translateY(0)}}
+@keyframes stagger{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes shimmer{from{opacity:.6}to{opacity:1}}
+.fade-in{animation:fadeIn .25s ease}
+.slide-left{animation:slideLeft .28s cubic-bezier(.25,.1,.25,1)}
+.slide-right{animation:slideRight .28s cubic-bezier(.25,.1,.25,1)}
+.slide-up{animation:slideUp .25s ease}
+.stagger>*{opacity:0;animation:stagger .3s ease forwards}
+.stagger>*:nth-child(1){animation-delay:.05s}
+.stagger>*:nth-child(2){animation-delay:.1s}
+.stagger>*:nth-child(3){animation-delay:.15s}
+.stagger>*:nth-child(4){animation-delay:.2s}
+.stagger>*:nth-child(5){animation-delay:.25s}
+.stagger>*:nth-child(6){animation-delay:.3s}
+.stagger>*:nth-child(7){animation-delay:.35s}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Pages rendered by JS -->
+  <nav class="nav" id="nav"></nav>
+  <div class="modal-bg hidden" id="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+</div>
+
+<script>
+const KEYS={SEQ:'yoga_sequences',CLS:'yoga_classes',SET:'yoga_settings',API:'yoga_api_key'};
+const LS={
+  get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  set(k,v){localStorage.setItem(k,JSON.stringify(v))},
+  str(k){return localStorage.getItem(k)||''},
+  setStr(k,v){localStorage.setItem(k,v)},
+  del(k){localStorage.removeItem(k)}
+};
+function uid(){return crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now().toString(36)}
+
+const ADB=[
+// === WARM-UP (20) ===
+{id:'a001',pronun:'발라아사나',alias:'차일드 포즈,발라아사나',name:"Child's pose",sanskrit:'Balasana',nameKo:'아이 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a002',pronun:'마르자리아사나',alias:'캣카우,마르자리아사나',name:'Cat-cow stretch',sanskrit:'Marjaryasana-Bitilasana',nameKo:'고양이-소 스트레칭',section:'warmup',level:'beginner',side:'both'},
+{id:'a003',pronun:'파스치모타나아사나',alias:'파스치모타나아사나',name:'Seated forward fold',sanskrit:'Paschimottanasana',nameKo:'앉아서 전굴',section:'warmup',level:'beginner',side:'both'},
+{id:'a004',pronun:'수카아사나',alias:'수카아사나',name:'Easy pose',sanskrit:'Sukhasana',nameKo:'편안한 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a005',pronun:'그리바 산찰라나',alias:'넥롤',name:'Neck rolls',sanskrit:'Greeva Sanchalana',nameKo:'목 돌리기',section:'warmup',level:'beginner',side:'both'},
+{id:'a006',pronun:'마니반다 차크라',alias:'리스트서클',name:'Wrist circles',sanskrit:'Manibandha Chakra',nameKo:'손목 돌리기',section:'warmup',level:'beginner',side:'both'},
+{id:'a007',pronun:'바르마나아사나',alias:'바르마나아사나',name:'Tabletop pose',sanskrit:'Bharmanasana',nameKo:'테이블탑 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a008',pronun:'파르스바 발라아사나',alias:'쓰레드더니들,파르스바 발라아사나',name:'Thread the needle',sanskrit:'Parsva Balasana',nameKo:'바늘 통과 자세',section:'warmup',level:'beginner',side:'left-right'},
+{id:'a009',pronun:'우타나 시쇼사나',alias:'퍼피포즈,우타나 시쇼사나',name:'Puppy pose',sanskrit:'Uttana Shishosana',nameKo:'강아지 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a010',pronun:'숩타 마첸드라아사나',alias:'숩타 마첸드라아사나',name:'Supine spinal twist',sanskrit:'Supta Matsyendrasana',nameKo:'누워서 비틀기',section:'warmup',level:'beginner',side:'left-right'},
+{id:'a011',pronun:'아난다 발라아사나',alias:'해피베이비,아난다 발라아사나',name:'Happy baby',sanskrit:'Ananda Balasana',nameKo:'행복한 아기 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a012',pronun:'숩타 밧다 코나아사나',alias:'숩타 밧다 코나아사나',name:'Reclined butterfly',sanskrit:'Supta Baddha Konasana',nameKo:'누운 나비 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a013',pronun:'아파나아사나',alias:'아파나아사나',name:'Knees to chest',sanskrit:'Apanasana',nameKo:'무릎 가슴 당기기',section:'warmup',level:'beginner',side:'both'},
+{id:'a014',pronun:'파르스바 수카아사나',alias:'파르스바 수카아사나',name:'Seated side bend',sanskrit:'Parsva Sukhasana',nameKo:'앉아서 옆으로 기울이기',section:'warmup',level:'beginner',side:'left-right'},
+{id:'a015',pronun:'우파비스타 마르자리아사나',alias:'우파비스타 마르자리아사나',name:'Seated cat-cow',sanskrit:'Upavistha Marjaryasana',nameKo:'앉아서 고양이-소',section:'warmup',level:'beginner',side:'both'},
+{id:'a016',pronun:'파리브릿타 안자네야아사나',alias:'파리브릿타 안자네야아사나',name:'Low lunge twist',sanskrit:'Parivrtta Anjaneyasana',nameKo:'낮은 런지 비틀기',section:'warmup',level:'intermediate',side:'left-right'},
+{id:'a017',pronun:'우타나아사나',alias:'우타나아사나',name:'Standing forward fold',sanskrit:'Uttanasana',nameKo:'서서 전굴',section:'warmup',level:'beginner',side:'both'},
+{id:'a018',pronun:'밧다 하스타 우타나아사나',alias:'래그돌',name:'Ragdoll pose',sanskrit:'Baddha Hasta Uttanasana',nameKo:'래그돌 자세',section:'warmup',level:'beginner',side:'both'},
+{id:'a019',pronun:'파리브릿타 수카아사나',alias:'파리브릿타 수카아사나',name:'Gentle seated twist',sanskrit:'Parivrtta Sukhasana',nameKo:'부드러운 앉은 비틀기',section:'warmup',level:'beginner',side:'left-right'},
+{id:'a020',pronun:'굴프 차크라',alias:'앵클서클',name:'Ankle circles',sanskrit:'Goolf Chakra',nameKo:'발목 돌리기',section:'warmup',level:'beginner',side:'both'},
+
+// === BUILD-UP (40) ===
+{id:'a021',pronun:'수리야 나마스카라 A',alias:'수리야 나마스카르,수리아 나마스카라',name:'Sun salutation A',sanskrit:'Surya Namaskar A',nameKo:'태양 경배 A',section:'buildup',level:'beginner',side:'both'},
+{id:'a022',pronun:'수리야 나마스카라 B',alias:'수리야 나마스카르 B',name:'Sun salutation B',sanskrit:'Surya Namaskar B',nameKo:'태양 경배 B',section:'buildup',level:'intermediate',side:'both'},
+{id:'a023',pronun:'비라바드라아사나 I',alias:'워리어1,비라바드라아사나',name:'Warrior I',sanskrit:'Virabhadrasana I',nameKo:'전사 자세 I',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a024',pronun:'비라바드라아사나 II',alias:'워리어2,비라바드라아사나',name:'Warrior II',sanskrit:'Virabhadrasana II',nameKo:'전사 자세 II',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a025',pronun:'비라바드라아사나 III',alias:'워리어3,비라바드라아사나',name:'Warrior III',sanskrit:'Virabhadrasana III',nameKo:'전사 자세 III',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a026',pronun:'트리코나아사나',alias:'트라이앵글,트리코나아사나',name:'Triangle pose',sanskrit:'Trikonasana',nameKo:'삼각 자세',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a027',pronun:'파리브릿타 트리코나아사나',alias:'리볼브드 트라이앵글,파리브릿타 트리코나아사나',name:'Revolved triangle',sanskrit:'Parivrtta Trikonasana',nameKo:'회전 삼각 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a028',pronun:'우티타 파르스바코나아사나',alias:'우티타 파르스바코나아사나',name:'Extended side angle',sanskrit:'Utthita Parsvakonasana',nameKo:'확장 측면각 자세',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a029',pronun:'파리브릿타 파르스바코나아사나',alias:'파리브릿타 파르스바코나아사나',name:'Revolved side angle',sanskrit:'Parivrtta Parsvakonasana',nameKo:'회전 측면각 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a030',pronun:'웃카타아사나',alias:'웃카타아사나,체어포즈',name:'Chair pose',sanskrit:'Utkatasana',nameKo:'의자 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a031',pronun:'파리브리타 웃카타아사나',alias:'파리브리타 웃카타아사나',name:'Revolved chair',sanskrit:'Parivrtta Utkatasana',nameKo:'회전 의자 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a032',pronun:'우티타 아쉬와 산찰라나아사나',alias:'하이런지',name:'High lunge',sanskrit:'Utthita Ashwa Sanchalanasana',nameKo:'하이 런지',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a033',pronun:'안자네야아사나',alias:'크레센트런지,안자네야아사나',name:'Crescent lunge',sanskrit:'Anjaneyasana',nameKo:'크레센트 런지',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a034',pronun:'안자네야아사나',alias:'로우런지,안자네야아사나',name:'Low lunge',sanskrit:'Anjaneyasana',nameKo:'로우 런지',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a035',pronun:'브릭샤아사나',alias:'트리포즈,브릭샤아사나',name:'Tree pose',sanskrit:'Vrksasana',nameKo:'나무 자세',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a036',pronun:'가루다아사나',alias:'이글포즈,가루다아사나',name:'Eagle pose',sanskrit:'Garudasana',nameKo:'독수리 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a037',pronun:'아르다 찬드라아사나',alias:'하프문,아르다 찬드라아사나',name:'Half moon',sanskrit:'Ardha Chandrasana',nameKo:'반달 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a038',pronun:'아도 무카 스바나아사나',alias:'다운독,아도 무카 스바나아사나',name:'Downward facing dog',sanskrit:'Adho Mukha Svanasana',nameKo:'아래를 향한 개 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a039',pronun:'우르드바 무카 스바나아사나',alias:'업독,우르드바 무카 스바나아사나',name:'Upward facing dog',sanskrit:'Urdhva Mukha Svanasana',nameKo:'위를 향한 개 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a040',pronun:'팔라카아사나',alias:'팔라카아사나',name:'Plank pose',sanskrit:'Phalakasana',nameKo:'플랭크 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a041',pronun:'바시스타아사나',alias:'바시스타아사나',name:'Side plank',sanskrit:'Vasisthasana',nameKo:'사이드 플랭크',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a042',pronun:'아르다 핀차 마유라아사나',alias:'아르다 핀차 마유라아사나',name:'Dolphin pose',sanskrit:'Ardha Pincha Mayurasana',nameKo:'돌핀 자세',section:'buildup',level:'intermediate',side:'both'},
+{id:'a043',pronun:'부장가아사나',alias:'부장가아사나',name:'Cobra pose',sanskrit:'Bhujangasana',nameKo:'코브라 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a044',pronun:'살람바 부장가아사나',alias:'살람바 부장가아사나',name:'Sphinx pose',sanskrit:'Salamba Bhujangasana',nameKo:'스핑크스 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a045',pronun:'살라바아사나',alias:'살라바아사나',name:'Locust pose',sanskrit:'Salabhasana',nameKo:'메뚜기 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a046',pronun:'세투 반다아사나',alias:'브릿지,세투 반다아사나',name:'Bridge pose',sanskrit:'Setu Bandhasana',nameKo:'다리 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a047',pronun:'나바아사나',alias:'나바아사나',name:'Boat pose',sanskrit:'Navasana',nameKo:'보트 자세',section:'buildup',level:'intermediate',side:'both'},
+{id:'a048',pronun:'말라아사나',alias:'말라아사나',name:'Garland pose',sanskrit:'Malasana',nameKo:'화환 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a049',pronun:'웃카타 코나아사나',alias:'웃카타 코나아사나',name:'Goddess pose',sanskrit:'Utkata Konasana',nameKo:'여신 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a050',pronun:'프라사리타 파도타나아사나',alias:'프라사리타 파도타나아사나',name:'Wide-legged forward fold',sanskrit:'Prasarita Padottanasana',nameKo:'다리 벌려 전굴',section:'buildup',level:'beginner',side:'both'},
+{id:'a051',pronun:'파르스보타나아사나',alias:'파르스보타나아사나',name:'Pyramid pose',sanskrit:'Parsvottanasana',nameKo:'피라미드 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a052',pronun:'파리가아사나',alias:'파리가아사나',name:'Gate pose',sanskrit:'Parighasana',nameKo:'문 자세',section:'buildup',level:'beginner',side:'left-right'},
+{id:'a053',pronun:'우르드바 프라사리타 에카 파다아사나',alias:'우르드바 프라사리타 에카 파다아사나',name:'Standing split',sanskrit:'Urdhva Prasarita Eka Padasana',nameKo:'서서 스플릿',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a054',pronun:'나타라자아사나',alias:'나타라자아사나',name:'Dancer pose',sanskrit:'Natarajasana',nameKo:'무용수 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a055',pronun:'우스트라아사나',alias:'우스트라아사나',name:'Camel pose',sanskrit:'Ustrasana',nameKo:'낙타 자세',section:'buildup',level:'intermediate',side:'both'},
+{id:'a056',pronun:'다누라아사나',alias:'다누라아사나',name:'Bow pose',sanskrit:'Dhanurasana',nameKo:'활 자세',section:'buildup',level:'intermediate',side:'both'},
+{id:'a057',pronun:'우파비스타 코나아사나',alias:'우파비스타 코나아사나',name:'Seated wide angle',sanskrit:'Upavistha Konasana',nameKo:'앉아서 다리 벌리기',section:'buildup',level:'beginner',side:'both'},
+{id:'a058',pronun:'비라아사나',alias:'비라아사나',name:'Hero pose',sanskrit:'Virasana',nameKo:'영웅 자세',section:'buildup',level:'beginner',side:'both'},
+{id:'a059',pronun:'고무카아사나',alias:'고무카아사나',name:'Cow face pose',sanskrit:'Gomukhasana',nameKo:'소 얼굴 자세',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a060',pronun:'단다아사나',alias:'단다아사나',name:'Staff pose',sanskrit:'Dandasana',nameKo:'막대 자세',section:'buildup',level:'beginner',side:'both'},
+
+// === PEAK (20) ===
+{id:'a061',pronun:'에카 파다 라자카포타아사나',alias:'에카 파다 라자카포타아사나',name:'King pigeon',sanskrit:'Eka Pada Rajakapotasana',nameKo:'킹 피전',section:'peak',level:'advanced',side:'left-right'},
+{id:'a062',pronun:'바카아사나',alias:'크로우포즈,바카아사나',name:'Crow pose',sanskrit:'Bakasana',nameKo:'까마귀 자세',section:'peak',level:'intermediate',side:'both'},
+{id:'a063',pronun:'파르스바 바카아사나',alias:'사이드크로우,파르스바 바카아사나',name:'Side crow',sanskrit:'Parsva Bakasana',nameKo:'사이드 크로우',section:'peak',level:'advanced',side:'left-right'},
+{id:'a064',pronun:'시르사아사나',alias:'시르사아사나',name:'Headstand',sanskrit:'Sirsasana',nameKo:'물구나무 자세',section:'peak',level:'advanced',side:'both'},
+{id:'a065',pronun:'핀차 마유라아사나',alias:'핀차 마유라아사나',name:'Forearm stand',sanskrit:'Pincha Mayurasana',nameKo:'전완 물구나무',section:'peak',level:'advanced',side:'both'},
+{id:'a066',pronun:'아도 무카 브릭샤아사나',alias:'아도 무카 브릭샤아사나',name:'Handstand',sanskrit:'Adho Mukha Vrksasana',nameKo:'핸드스탠드',section:'peak',level:'advanced',side:'both'},
+{id:'a067',pronun:'우르드바 다누라아사나',alias:'우르드바 다누라아사나,휠포즈',name:'Wheel pose',sanskrit:'Urdhva Dhanurasana',nameKo:'바퀴 자세',section:'peak',level:'intermediate',side:'both'},
+{id:'a068',pronun:'스바르가 드비자아사나',alias:'스바르가 드비자아사나',name:'Bird of paradise',sanskrit:'Svarga Dvijasana',nameKo:'극락조 자세',section:'peak',level:'advanced',side:'left-right'},
+{id:'a069',pronun:'에카 파다 갈라바아사나',alias:'에카 파다 갈라바아사나',name:'Flying pigeon',sanskrit:'Eka Pada Galavasana',nameKo:'플라잉 피전',section:'peak',level:'advanced',side:'left-right'},
+{id:'a070',pronun:'아스타바크라아사나',alias:'아스타바크라아사나',name:'Eight angle pose',sanskrit:'Astavakrasana',nameKo:'8자 자세',section:'peak',level:'advanced',side:'left-right'},
+{id:'a071',pronun:'티티바아사나',alias:'티티바아사나',name:'Firefly pose',sanskrit:'Tittibhasana',nameKo:'반딧불 자세',section:'peak',level:'advanced',side:'both'},
+{id:'a072',pronun:'파리브릿타 수리야 얀트라아사나',alias:'파리브릿타 수리야 얀트라아사나',name:'Compass pose',sanskrit:'Parivrtta Surya Yantrasana',nameKo:'나침반 자세',section:'peak',level:'advanced',side:'left-right'},
+{id:'a073',pronun:'브리스치카아사나',alias:'브리스치카아사나',name:'Scorpion pose',sanskrit:'Vrschikasana',nameKo:'전갈 자세',section:'peak',level:'advanced',side:'both'},
+{id:'a074',pronun:'하누만아사나',alias:'하누만아사나',name:'Full splits',sanskrit:'Hanumanasana',nameKo:'스플릿',section:'peak',level:'advanced',side:'left-right'},
+{id:'a075',pronun:'파드마아사나',alias:'파드마아사나',name:'Lotus pose',sanskrit:'Padmasana',nameKo:'연꽃 자세',section:'peak',level:'intermediate',side:'both'},
+{id:'a076',pronun:'사르방가아사나',alias:'사르방가아사나',name:'Shoulder stand',sanskrit:'Sarvangasana',nameKo:'어깨 물구나무',section:'peak',level:'intermediate',side:'both'},
+{id:'a077',pronun:'할라아사나',alias:'할라아사나',name:'Plow pose',sanskrit:'Halasana',nameKo:'쟁기 자세',section:'peak',level:'intermediate',side:'both'},
+{id:'a078',pronun:'차마트카라아사나',alias:'차마트카라아사나',name:'Wild thing',sanskrit:'Camatkarasana',nameKo:'와일드 씽',section:'peak',level:'intermediate',side:'left-right'},
+{id:'a079',pronun:'데바두타 판나',alias:'데바두타 판나',name:'Fallen angel',sanskrit:'Devaduuta Panna',nameKo:'폴른 엔젤',section:'peak',level:'advanced',side:'left-right'},
+{id:'a080',pronun:'마유라아사나',alias:'마유라아사나',name:'Peacock pose',sanskrit:'Mayurasana',nameKo:'공작 자세',section:'peak',level:'advanced',side:'both'},
+
+// === COOL-DOWN (20) ===
+{id:'a081',pronun:'에카 파다 라자카포타아사나',alias:'에카 파다 라자카포타아사나,피전포즈',name:'Pigeon pose',sanskrit:'Eka Pada Rajakapotasana',nameKo:'비둘기 자세',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a082',pronun:'밧다 코나아사나',alias:'밧다 코나아사나,버터플라이',name:'Butterfly pose',sanskrit:'Baddha Konasana',nameKo:'나비 자세',section:'cooldown',level:'beginner',side:'both'},
+{id:'a083',pronun:'우탄 프리스타아사나',alias:'우탄 프리스타아사나',name:'Dragon pose',sanskrit:'Utthan Pristhasana',nameKo:'드래곤 자세',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a084',pronun:'만두카아사나',alias:'만두카아사나,프로그포즈',name:'Frog pose',sanskrit:'Mandukasana',nameKo:'개구리 자세',section:'cooldown',level:'intermediate',side:'both'},
+{id:'a085',pronun:'비파리타 카라니',alias:'비파리타 카라니',name:'Legs up the wall',sanskrit:'Viparita Karani',nameKo:'벽에 다리 올리기',section:'cooldown',level:'beginner',side:'both'},
+{id:'a086',pronun:'사바아사나',alias:'사바아사나',name:'Savasana',sanskrit:'Savasana',nameKo:'사바사나',section:'cooldown',level:'beginner',side:'both'},
+{id:'a089',pronun:'숩타 파당구스타아사나',alias:'숩타 파당구스타아사나',name:'Reclining hand to big toe',sanskrit:'Supta Padangusthasana',nameKo:'누워서 발잡기',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a090',pronun:'아르다 마첸드라아사나',alias:'아르다 마첸드라아사나',name:'Half lord of the fishes',sanskrit:'Ardha Matsyendrasana',nameKo:'반 물고기 왕 자세',section:'cooldown',level:'intermediate',side:'left-right'},
+{id:'a091',pronun:'자누 시르사아사나',alias:'자누 시르사아사나',name:'Head to knee',sanskrit:'Janu Sirsasana',nameKo:'머리-무릎 자세',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a092',pronun:'숩타 비라아사나',alias:'숩타 비라아사나',name:'Reclined hero',sanskrit:'Supta Virasana',nameKo:'누운 영웅 자세',section:'cooldown',level:'intermediate',side:'both'},
+{id:'a093',pronun:'마츠야아사나',alias:'마츠야아사나',name:'Fish pose',sanskrit:'Matsyasana',nameKo:'물고기 자세',section:'cooldown',level:'beginner',side:'both'},
+{id:'a094',pronun:'살람바 사르방가아사나',alias:'살람바 사르방가아사나',name:'Supported shoulder stand',sanskrit:'Salamba Sarvangasana',nameKo:'지지 어깨 물구나무',section:'cooldown',level:'intermediate',side:'both'},
+{id:'a096',pronun:'마카라아사나',alias:'마카라아사나',name:'Crocodile pose',sanskrit:'Makarasana',nameKo:'악어 자세',section:'cooldown',level:'beginner',side:'both'},
+{id:'a097',pronun:'바나나아사나',alias:'바나나아사나',name:'Banana pose',sanskrit:'Bananasana',nameKo:'바나나 자세',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a098',pronun:'파반묵타아사나',alias:'파반묵타아사나',name:'Wind release pose',sanskrit:'Pavanamuktasana',nameKo:'가스 제거 자세',section:'cooldown',level:'beginner',side:'both'},
+{id:'a099',pronun:'숩타 카포타아사나',alias:'숩타 카포타아사나',name:'Sleeping swan',sanskrit:'Supta Kapotasana',nameKo:'잠자는 백조',section:'cooldown',level:'beginner',side:'left-right'},
+{id:'a100',pronun:'요가 니드라',alias:'요가 니드라',name:'Final relaxation',sanskrit:'Yoga Nidra',nameKo:'최종 이완',section:'cooldown',level:'beginner',side:'both'},
+{id:'a101',pronun:'프라나야마',alias:'복식호흡,디아프라매틱 브리딩',name:'Diaphragmatic breathing',sanskrit:'Pranayama',nameKo:'복식호흡',section:'warmup',level:'beginner',side:'both'},
+{id:'a104',pronun:'리버스 테이블탑',alias:'현자세 뒤 손짚고 엉덩이 들기,퓨르보타나아사나 변형',name:'Reverse tabletop',sanskrit:'Ardha Purvottanasana',nameKo:'리버스 테이블탑',section:'warmup',level:'beginner',side:'both'},
+{id:'a105',pronun:'니 투 엘보우 플랭크',alias:'플랭크 무릎 코터치,니투노즈',name:'Knee-to-elbow plank',sanskrit:'Phalakasana variation',nameKo:'플랭크 무릎 코터치',section:'buildup',level:'intermediate',side:'left-right'},
+{id:'a106',pronun:'바카아사나 드릴',alias:'까마귀 자세 드릴,크로우 프렙',name:'Crow pose drill',sanskrit:'Bakasana prep',nameKo:'까마귀 자세 드릴',section:'buildup',level:'intermediate',side:'both'},
+{id:'a107',pronun:'트리포드 헤드스탠드 준비',alias:'트리포드 프렙,삼각 머리서기 준비',name:'Tripod headstand prep',sanskrit:'Sirsasana II prep',nameKo:'트리포드 준비',section:'buildup',level:'intermediate',side:'both'},
+{id:'a108',pronun:'고무카아사나 팔',alias:'소머리 자세 팔,고무카 암즈',name:'Cow face arms only',sanskrit:'Gomukhasana arms',nameKo:'소머리 자세 (팔)',section:'cooldown',level:'beginner',side:'left-right'},
+]
+
+const T={
+en:{appName:'Yoga Sequence Note',home:'Home',sequences:'Sequences',settings:'Settings',ai:'AI',todayClasses:"Today's classes",addClass:'Add class',next:'Next',newSequence:'New sequence',createFromScratch:'Create from scratch',aiGenerate:'AI generate',claudeBuilds:'Claude builds it',recentSequences:'Recent sequences',viewAll:'View all',sequenceEditor:'Sequence editor',addPose:'Add pose',aiSuggest:'AI suggest',addPeakPose:'Add peak pose',save:'Save',poses:'poses',min:'min',breaths:'breaths',rounds:'rounds',warmup:'Warm-up',buildup:'Build-up',peakPose:'Peak pose',cooldown:'Cool-down',optional:'optional',all:'All',aiSequenceGenerator:'AI sequence generator',yogaStyle:'Yoga style',duration:'Duration',level:'Level',focusArea:'Focus area',peakPoseInput:'Peak pose',additionalNotes:'Additional notes',generateSequence:'Generate sequence',peakPlaceholder:'e.g. King Pigeon, Crow pose...',notesPlaceholder:'e.g. Avoid inversions, include pranayama...',aiBuildToward:'AI will build the sequence toward this pose',mySequences:'My sequences',searchSequences:'Search sequences...',recent:'Recent',nameSort:'A-Z',durationSort:'Duration',total:'total',aiConfiguration:'AI configuration',claudeApiKey:'Claude API key',connected:'Connected',notConnected:'Not connected',storedLocally:'Stored locally in your browser only',aiModel:'AI model',usedForGeneration:'Used for sequence generation',general:'General',language:'Language',darkMode:'Dark mode',followSystem:'Follow system setting',poseNaming:'Pose naming',enSanskrit:'English + Sanskrit',enOnly:'English only',skOnly:'Sanskrit only',koSanskrit:'Korean + Sanskrit',data:'Data',exportData:'Export data',exportDesc:'Download all sequences as JSON',importData:'Import data',importDesc:'Restore from JSON file',deleteAll:'Delete all data',deleteDesc:'Clear all sequences and classes',about:'About',version:'Version',beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',allLevels:'All levels',vinyasa:'Vinyasa',hatha:'Hatha',yin:'Yin',restorative:'Restorative',ashtanga:'Ashtanga',power:'Power',hipOpener:'Hip opener',backBend:'Back bend',core:'Core',balance:'Balance',twist:'Twist',shoulder:'Shoulder',hamstring:'Hamstring',inversion:'Inversion',cancel:'Cancel',confirmDelete:'Tap again to confirm',show:'Show',hide:'Hide',nameEN:'Name (EN)',nameKO:'Name (KO)',sanskrit:'Sanskrit',hold:'Hold',side:'Side',both:'Both',leftRight:'Left + Right',section:'Section',noClasses:'No classes today',hoursAgo:'{n}h ago',yesterday:'yesterday',daysAgo:'{n}d ago',edited:'Edited',created:'Created',className:'Class name',classTime:'Start time',classEndTime:'End time',classDay:'Day of week',linkedSequence:'Linked sequence',noSequence:'None',editClass:'Edit class',newClass:'New class',deleteClass:'Delete class',mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun',everyDay:'Every day',saveClass:'Save'},
+ko:{appName:'요가 시퀀스 노트',home:'홈',sequences:'시퀀스',settings:'설정',ai:'AI',todayClasses:'오늘의 수업',addClass:'수업 추가',next:'다음',newSequence:'새 시퀀스',createFromScratch:'직접 만들기',aiGenerate:'AI 생성',claudeBuilds:'Claude가 만들어줄게요',recentSequences:'최근 시퀀스',viewAll:'전체 보기',sequenceEditor:'시퀀스 에디터',addPose:'동작 추가',aiSuggest:'AI 추천',addPeakPose:'피크포즈 추가',save:'저장',poses:'개 동작',min:'분',breaths:'회 호흡',rounds:'라운드',warmup:'웜업',buildup:'빌드업',peakPose:'피크포즈',cooldown:'쿨다운',optional:'선택',all:'전체',aiSequenceGenerator:'AI 시퀀스 생성',yogaStyle:'요가 스타일',duration:'소요 시간',level:'난이도',focusArea:'집중 부위',peakPoseInput:'피크포즈',additionalNotes:'추가 요청',generateSequence:'시퀀스 생성하기',peakPlaceholder:'예: 킹 피전, 크로우 포즈...',notesPlaceholder:'예: 인버전 제외, 프라나야마로 시작...',aiBuildToward:'AI가 이 포즈를 향해 시퀀스를 구성합니다',mySequences:'내 시퀀스',searchSequences:'시퀀스 검색...',recent:'최신순',nameSort:'이름순',durationSort:'시간순',total:'총',aiConfiguration:'AI 설정',claudeApiKey:'Claude API 키',connected:'연결됨',notConnected:'미연결',storedLocally:'브라우저에만 안전하게 저장됩니다',aiModel:'AI 모델',usedForGeneration:'시퀀스 생성에 사용',general:'일반',language:'언어',darkMode:'다크 모드',followSystem:'시스템 설정 따르기',poseNaming:'동작 이름 표기',enSanskrit:'영어 + 산스크리트어',enOnly:'영어만',skOnly:'산스크리트어만',koSanskrit:'한국어 + 산스크리트어',data:'데이터',exportData:'데이터 내보내기',exportDesc:'모든 시퀀스를 JSON으로 다운로드',importData:'데이터 가져오기',importDesc:'JSON 파일에서 복원',deleteAll:'모든 데이터 삭제',deleteDesc:'모든 시퀀스와 수업 삭제',about:'정보',version:'버전',beginner:'초급',intermediate:'중급',advanced:'고급',allLevels:'모든 레벨',vinyasa:'빈야사',hatha:'하타',yin:'인요가',restorative:'리스토러티브',ashtanga:'아쉬탕가',power:'파워',hipOpener:'골반 열기',backBend:'후굴',core:'코어',balance:'밸런스',twist:'트위스트',shoulder:'어깨',hamstring:'햄스트링',inversion:'인버전',cancel:'취소',confirmDelete:'다시 탭하면 삭제됩니다',show:'보기',hide:'숨기기',nameEN:'이름 (영어)',nameKO:'이름 (한국어)',sanskrit:'산스크리트어',hold:'유지',side:'방향',both:'양쪽',leftRight:'좌+우',section:'섹션',noClasses:'오늘 수업이 없습니다',hoursAgo:'{n}시간 전',yesterday:'어제',daysAgo:'{n}일 전',edited:'수정',created:'생성',className:'수업 이름',classTime:'시작 시간',classEndTime:'종료 시간',classDay:'요일',linkedSequence:'연결된 시퀀스',noSequence:'없음',editClass:'수업 수정',newClass:'새 수업',deleteClass:'수업 삭제',mon:'월',tue:'화',wed:'수',thu:'목',fri:'금',sat:'토',sun:'일',everyDay:'매일',saveClass:'저장'}
+};
+
+let state={page:'home',lang:'ko',theme:'dark',poseNaming:'ko-sanskrit',aiModel:'claude-sonnet-4-20250514',editId:null,edFilter:'all',listFilter:'all',listSort:'recent',listSearch:'',aiStyle:'vinyasa',aiDur:60,aiLevel:'intermediate',aiFocus:[],aiPeak:'',aiNotes:'',aiLoading:false};
+
+function loadSettings(){
+  const s=LS.get(KEYS.SET);
+  if(s){state.lang=s.language||'ko';state.theme=s.theme||'dark';state.poseNaming=s.poseNaming||'ko-sanskrit';state.aiModel=s.aiModel||state.aiModel;}
+  document.documentElement.setAttribute('data-theme',state.theme);
+}
+function saveSettings(){LS.set(KEYS.SET,{language:state.lang,theme:state.theme,poseNaming:state.poseNaming,aiModel:state.aiModel})}
+function t(k,p){let s=T[state.lang]?.[k]||T.en[k]||k;if(p)Object.entries(p).forEach(([a,b])=>{s=s.replace('{'+a+'}',b)});return s}
+function getSeqs(){return LS.get(KEYS.SEQ)||[]}
+function saveSeq(seq){const seqs=getSeqs();const i=seqs.findIndex(s=>s.id===seq.id);if(i>=0)seqs[i]={...seq,updatedAt:new Date().toISOString()};else seqs.unshift({...seq,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});LS.set(KEYS.SEQ,seqs)}
+function delSeq(id){LS.set(KEYS.SEQ,getSeqs().filter(s=>s.id!==id))}
+function getClasses(){return LS.get(KEYS.CLS)||[]}
+function saveClass(cls){const all=getClasses();const i=all.findIndex(c=>c.id===cls.id);if(i>=0)all[i]=cls;else all.push(cls);LS.set(KEYS.CLS,all)}
+function deleteClass(id){LS.set(KEYS.CLS,getClasses().filter(c=>c.id!==id))}
+function getApiKey(){return LS.str(KEYS.API)}
+function setApiKey(k){LS.setStr(KEYS.API,k)}
+function timeAgo(d){const ms=Date.now()-new Date(d).getTime();const h=Math.floor(ms/36e5);const dy=Math.floor(ms/864e5);if(h<1)return t('edited')+' <1h';if(h<24)return t('edited')+' '+t('hoursAgo',{n:h});if(dy===1)return t('edited')+' '+t('yesterday');return t('edited')+' '+t('daysAgo',{n:dy})}
+function getLvlCls(l){return l==='beginner'?'b-beg':l==='intermediate'?'b-int':l==='advanced'?'b-adv':'b-all'}
+function getLvlT(l){return l==='all'?t('allLevels'):t(l)}
+function poseName(p){const n=state.poseNaming;if(n==='ko-sanskrit')return p.pronun||p.sanskrit||p.name;if(n==='sanskrit')return p.sanskrit||p.name;return p.name}
+function poseSub(p){const n=state.poseNaming;if(n==='ko-sanskrit')return p.nameKo||p.name;if(n==='en-sanskrit')return p.sanskrit;if(n==='sanskrit')return p.name;return p.sanskrit}
+function poseCount(poses){return poses.reduce((c,p)=>c+(p.type==='flow'?(p.poses||[]).length:1),0)}
+
+function initSample(){
+  if(LS.get(KEYS.SEQ))return;
+  const seqs=[
+    {id:uid(),title:'Morning vinyasa flow',titleKo:'모닝 빈야사 플로우',style:'vinyasa',duration:60,level:'intermediate',tags:['hip opener','morning'],source:'manual',poses:[
+      {id:uid(),name:"Child's pose",nameKo:'아이 자세',sanskrit:'Balasana',section:'warmup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Cat-cow stretch',nameKo:'고양이-소 스트레칭',sanskrit:'Marjaryasana-Bitilasana',section:'warmup',hold:'8 rounds',side:'both'},
+      {id:uid(),name:'Sun salutation A',nameKo:'태양 경배 A',sanskrit:'Surya Namaskar A',section:'buildup',hold:'3 rounds',side:'both'},
+      {id:uid(),name:'Warrior I',nameKo:'전사 자세 I',sanskrit:'Virabhadrasana I',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Triangle pose',nameKo:'삼각 자세',sanskrit:'Trikonasana',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Half moon',nameKo:'반달 자세',sanskrit:'Ardha Chandrasana',section:'peak',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Pigeon pose',nameKo:'비둘기 자세',sanskrit:'Eka Pada Rajakapotasana',section:'cooldown',hold:'10 breaths',side:'left-right'},
+      {id:uid(),name:'Savasana',nameKo:'사바사나',sanskrit:'Savasana',section:'cooldown',hold:'5 min',side:'both'}
+    ],createdAt:new Date(Date.now()-864e5*3).toISOString(),updatedAt:new Date(Date.now()-72e5).toISOString()},
+    {id:uid(),title:'Hip opener deep stretch',titleKo:'골반 열기 딥 스트레칭',style:'yin',duration:90,level:'all',tags:['hip opener','flexibility'],source:'manual',poses:[
+      {id:uid(),name:'Butterfly',nameKo:'나비 자세',sanskrit:'Baddha Konasana',section:'warmup',hold:'3 min',side:'both'},
+      {id:uid(),name:'Dragon pose',nameKo:'드래곤 자세',sanskrit:'Utthan Pristhasana',section:'buildup',hold:'3 min',side:'left-right'},
+      {id:uid(),name:'Frog pose',nameKo:'개구리 자세',sanskrit:'Mandukasana',section:'peak',hold:'5 min',side:'both'},
+      {id:uid(),name:'Savasana',nameKo:'사바사나',sanskrit:'Savasana',section:'cooldown',hold:'5 min',side:'both'}
+    ],createdAt:new Date(Date.now()-864e5*5).toISOString(),updatedAt:new Date(Date.now()-864e5).toISOString()},
+    {id:uid(),title:'Evening relaxation',titleKo:'저녁 이완 시퀀스',style:'restorative',duration:30,level:'beginner',tags:['relaxation','evening'],source:'ai',poses:[
+      {id:uid(),name:"Child's pose",nameKo:'아이 자세',sanskrit:'Balasana',section:'warmup',hold:'2 min',side:'both'},
+      {id:uid(),name:'Supine twist',nameKo:'누워서 비틀기',sanskrit:'Supta Matsyendrasana',section:'buildup',hold:'3 min',side:'left-right'},
+      {id:uid(),name:'Legs up the wall',nameKo:'벽에 다리 올리기',sanskrit:'Viparita Karani',section:'cooldown',hold:'5 min',side:'both'},
+      {id:uid(),name:'Savasana',nameKo:'사바사나',sanskrit:'Savasana',section:'cooldown',hold:'5 min',side:'both'}
+    ],createdAt:new Date(Date.now()-864e5*3).toISOString(),updatedAt:new Date(Date.now()-864e5*3).toISOString()},
+    {id:uid(),title:'Bakasana sequence',titleKo:'까마귀 자세로 이끄는 바카아사나 시퀀스',style:'hatha',duration:60,level:'intermediate',tags:['arm balance','core','crow pose'],source:'manual',poses:[
+      {id:uid(),name:'Diaphragmatic breathing',nameKo:'복식호흡',sanskrit:'Pranayama',pronun:'프라나야마',section:'warmup',hold:'2 min',side:'both'},
+      {id:uid(),name:'Easy pose',nameKo:'편안한 자세',sanskrit:'Sukhasana',pronun:'수카아사나',section:'warmup',hold:'1 min',side:'both'},
+      {id:uid(),name:'Sage side bend',nameKo:'현자세 측굴',sanskrit:'Parsva Sukhasana',pronun:'파르스바 수카아사나',section:'warmup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Sage twist',nameKo:'현자세 비틀기',sanskrit:'Parivrtta Sukhasana',pronun:'파리브릿타 수카아사나',section:'warmup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Reverse tabletop',nameKo:'리버스 테이블탑',sanskrit:'Ardha Purvottanasana',pronun:'리버스 테이블탑',section:'warmup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Head to knee',nameKo:'머리-무릎 자세',sanskrit:'Janu Sirsasana',pronun:'자누 시르사아사나',section:'warmup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Wild thing',nameKo:'와일드 씽 (초보 변형)',sanskrit:'Camatkarasana',pronun:'차마트카라아사나',section:'warmup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Downward facing dog',nameKo:'아래를 향한 개 자세',sanskrit:'Adho Mukha Svanasana',pronun:'아도 무카 스바나아사나',section:'warmup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Garland pose',nameKo:'화환 자세',sanskrit:'Malasana',pronun:'말라아사나',section:'warmup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Knee-to-elbow plank',nameKo:'플랭크 무릎 코터치',sanskrit:'Phalakasana variation',pronun:'니 투 엘보우 플랭크',section:'buildup',hold:'8 rounds',side:'left-right'},
+      {id:uid(),name:'Downward facing dog',nameKo:'아래를 향한 개 자세',sanskrit:'Adho Mukha Svanasana',pronun:'아도 무카 스바나아사나',section:'buildup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Low lunge',nameKo:'로우 런지',sanskrit:'Anjaneyasana',pronun:'안자네야아사나',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'High lunge',nameKo:'하이 런지',sanskrit:'Utthita Ashwa Sanchalanasana',pronun:'우티타 아쉬와 산찰라나아사나',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Warrior II',nameKo:'전사 자세 II',sanskrit:'Virabhadrasana II',pronun:'비라바드라아사나 II',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),type:'flow',section:'buildup',repeat:'rtl',poses:[
+        {name:'Warrior II',nameKo:'전사 자세 II',sanskrit:'Virabhadrasana II',pronun:'비라바드라아사나 II',hold:'5 breaths'},
+        {name:'Extended side angle',nameKo:'확장 측면각 자세',sanskrit:'Utthita Parsvakonasana',pronun:'우티타 파르스바코나아사나',hold:'5 breaths'},
+      ]},
+      {id:uid(),name:'Frog pose',nameKo:'개구리 자세 (와이드 스쿼트)',sanskrit:'Mandukasana',pronun:'만두카아사나',section:'buildup',hold:'1 min',side:'both'},
+      {id:uid(),name:'Crow pose drill',nameKo:'까마귀 자세 드릴 ① (발꿈치 들기)',sanskrit:'Bakasana prep',pronun:'바카아사나 드릴',section:'buildup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Crow pose drill',nameKo:'까마귀 자세 드릴 ② (한발 들기)',sanskrit:'Bakasana prep',pronun:'바카아사나 드릴',section:'buildup',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Tripod headstand prep',nameKo:'트리포드 준비',sanskrit:'Sirsasana II prep',pronun:'트리포드 헤드스탠드 준비',section:'buildup',hold:'5 breaths',side:'both'},
+      {id:uid(),name:'Crow pose',nameKo:'까마귀 자세',sanskrit:'Bakasana',pronun:'바카아사나',section:'peak',hold:'5-10 breaths x3',side:'both'},
+      {id:uid(),name:'Thread the needle',nameKo:'실 꿰기 자세',sanskrit:'Parsva Balasana',pronun:'파르스바 발라아사나',section:'cooldown',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:"Child's pose",nameKo:'아기 자세 (팔 넓게)',sanskrit:'Balasana',pronun:'발라아사나',section:'cooldown',hold:'1 min',side:'both'},
+      {id:uid(),name:'Cow face arms only',nameKo:'소머리 자세 (팔)',sanskrit:'Gomukhasana arms',pronun:'고무카아사나 팔',section:'cooldown',hold:'5 breaths',side:'left-right'},
+      {id:uid(),name:'Supine twist',nameKo:'누운 척추 비틀기',sanskrit:'Supta Matsyendrasana',pronun:'숩타 마첸드라아사나',section:'cooldown',hold:'1 min',side:'left-right'},
+      {id:uid(),name:'Savasana',nameKo:'시체 자세',sanskrit:'Savasana',pronun:'사바아사나',section:'cooldown',hold:'5 min',side:'both'}
+    ],createdAt:new Date(Date.now()-864e5*1).toISOString(),updatedAt:new Date(Date.now()-36e5).toISOString()}
+  ];
+  LS.set(KEYS.SEQ,seqs);
+  LS.set(KEYS.CLS,[
+    {id:uid(),name:'Morning flow',nameKo:'모닝 플로우',time:'09:00',endTime:'10:00',dayOfWeek:new Date().getDay()},
+    {id:uid(),name:'Yin yoga',nameKo:'인요가',time:'14:00',endTime:'15:00',dayOfWeek:new Date().getDay()}
+  ]);
+}
+
+const IC={
+  home:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 8l8-5 8 5v9a1 1 0 01-1 1H4a1 1 0 01-1-1V8z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 18v-5h4v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  seq:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 11h14M4 16h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  star:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2.5 5h5l-4 3.5 1.5 5.5L11 13.5 6 17l1.5-5.5-4-3.5h5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>',
+  gear:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M11 3v2M11 17v2M3 11h2M17 11h2M5.6 5.6l1.4 1.4M15 15l1.4 1.4M16.4 5.6l-1.4 1.4M7 15l-1.4 1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+  back:'<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  plus:'<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 4v10M4 9h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  x:'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+  grip:'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3.5 2.5h1M3.5 5.5h1M3.5 8.5h1M7.5 2.5h1M7.5 5.5h1M7.5 8.5h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  check:'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 4L5.5 10 3 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  search:'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><path d="M9 9l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+  arr:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  ext:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12l8-8M6 4h6v6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cog:'<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 12v4M2 9h4M12 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
+};
+
+const TAB_IDX={home:0,sequences:1,ai:2,settings:3,editor:1.5};
+let lastPage='home';
+function nav(pg){lastPage=state.page;state.page=pg;state.editId=null;state.edFilter='all';render()}
+function render(){
+  const app=document.getElementById('app');
+  const pages=app.querySelectorAll('.page');pages.forEach(p=>p.remove());
+  const div=document.createElement('div');
+  const fromIdx=TAB_IDX[lastPage]??0;const toIdx=TAB_IDX[state.page]??0;
+  let anim='fade-in';
+  if(state.page==='editor')anim='slide-up';
+  else if(fromIdx<toIdx)anim='slide-left';
+  else if(fromIdx>toIdx)anim='slide-right';
+  div.className='page '+anim;
+  switch(state.page){
+    case 'home':div.innerHTML=renderHome();break;
+    case 'sequences':div.innerHTML=renderList();break;
+    case 'editor':div.innerHTML=renderEditor();break;
+    case 'ai':div.innerHTML=renderAI();break;
+    case 'settings':div.innerHTML=renderSettings();break;
+  }
+  app.insertBefore(div,document.getElementById('nav'));
+  renderNav();
+  bindEvents();
+}
+
+function renderNav(){
+  const items=[{p:'home',ic:IC.home,l:'home'},{p:'sequences',ic:IC.seq,l:'sequences'},{p:'ai',ic:IC.star,l:'ai'},{p:'settings',ic:IC.gear,l:'settings'}];
+  document.getElementById('nav').innerHTML=items.map(i=>`<button class="${state.page===i.p?'on':''}" onclick="nav('${i.p}')">${i.ic}<span class="nav-lbl">${t(i.l)}</span></button>`).join('');
+}
+
+function renderHome(){
+  const seqs=getSeqs();const today=new Date().getDay();const cls=getClasses().filter(c=>Array.isArray(c.days)?c.days.includes(today):c.dayOfWeek===today);
+  const now=new Date();const dateStr=now.toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US',{weekday:'short',month:state.lang==='ko'?'numeric':'short',day:'numeric'}); 
+  return `
+<div class="home-hdr"><div><p class="app-name">${t('appName').toUpperCase()}</p><h1>Yoga Sequence Note</h1></div>
+<button class="icon-btn" onclick="nav('settings')">${IC.cog}</button></div>
+<div style="padding:0 0 12px"><div class="sec-hdr"><p class="sec-title">${t('todayClasses')}</p><p class="sec-meta">${dateStr}</p></div>
+<div class="today-scroll">${cls.length?cls.map((c,i)=>`<div class="cls-card ${i===0?'cls-next':''}" onclick="openClassModal('${c.id}')"><div class="cls-top"><span class="cls-time">${c.time}${c.endTime?' - '+c.endTime:''}</span>${i===0?`<span class="b-next">${t('next')}</span>`:''}</div><p class="cls-name">${state.lang==='ko'?(c.nameKo||c.name):c.name}</p></div>`).join(''):`<div class="cls-card"><p style="font-size:13px;color:var(--t3)">${t('noClasses')}</p></div>`}
+<div class="cls-add" onclick="openClassModal(null)">${IC.plus}<span>${t('addClass')}</span></div></div></div>
+<div style="padding:0 0 12px"><div class="sec-hdr"><p class="sec-title">${state.lang==='ko'?'시퀀스 만들기':'Create sequence'}</p></div>
+<div class="home-acts">
+<div class="act-card act-new" onclick="lastPage=state.page;state.editId=null;state.page='editor';render()">${IC.plus}<p class="act-t">${t('newSequence')}</p><p class="act-d">${t('createFromScratch')}</p></div>
+<div class="act-card act-ai" onclick="nav('ai')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2.5 5h5l-4 3.5 1.5 5.5L11 13.5 6 17l1.5-5.5-4-3.5h5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg><p class="act-t">${t('aiGenerate')}</p><p class="act-d">${t('claudeBuilds')}</p></div></div></div>
+<div style="padding:0 0 12px"><div class="sec-hdr"><p class="sec-title">${t('recentSequences')}</p><p class="sec-link" onclick="nav('sequences')">${t('viewAll')}</p></div>
+<div class="stagger">${seqs.slice(0,3).map(s=>`<div class="card seq-card" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div><p class="seq-time">${timeAgo(s.updatedAt)}</p></div>`).join('')}</div></div>`;
+}
+
+function renderList(){
+  const seqs=getSeqs();const styles=['vinyasa','hatha','yin','restorative','ashtanga','power'];
+  let filtered=[...seqs];
+  if(state.listFilter!=='all')filtered=filtered.filter(s=>s.style===state.listFilter);
+  if(state.listSearch){const q=state.listSearch.toLowerCase();filtered=filtered.filter(s=>s.title.toLowerCase().includes(q)||(s.titleKo&&s.titleKo.includes(q))||(s.tags&&s.tags.some(t=>t.includes(q))));}
+  if(state.listSort==='name')filtered.sort((a,b)=>a.title.localeCompare(b.title));
+  else if(state.listSort==='duration')filtered.sort((a,b)=>a.duration-b.duration);
+  else filtered.sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
+  return `
+<div class="list-hdr"><div class="list-top"><h1>${t('mySequences')}</h1><span style="font-size:12px;color:var(--t3)">${t('total')} ${seqs.length}</span></div>
+<div style="display:flex;gap:8px"><div class="search-wrap">${IC.search}<input class="search-in" placeholder="${t('searchSequences')}" value="${state.listSearch}" oninput="state.listSearch=this.value;render()"></div></div></div>
+<div class="list-filt"><button class="pill ${state.listFilter==='all'?'on':''}" onclick="state.listFilter='all';render()">${t('all')}</button>${styles.map(s=>`<button class="pill ${state.listFilter===s?'on':''}" onclick="state.listFilter='${s}';render()">${t(s)}</button>`).join('')}</div>
+<div class="list-sort">${['recent','name','duration'].map(s=>`<button class="sort-btn ${state.listSort===s?'on':''}" onclick="state.listSort='${s}';render()">${t(s==='name'?'nameSort':s==='duration'?'durationSort':'recent')}</button>`).join('')}</div>
+<div class="list-body">${filtered.map(s=>`<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div>${s.tags&&s.tags.length?`<div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">${s.tags.map(tg=>`<span style="font-size:11px;background:var(--bg2);color:var(--t2);padding:2px 6px;border-radius:4px">${tg}</span>`).join('')}</div>`:''}<p class="seq-time">${timeAgo(s.updatedAt)}</p></div>`).join('')}${filtered.length===0?`<p style="text-align:center;padding:40px 0;color:var(--t3);font-size:13px">${state.listSearch?'No results':'No sequences yet'}</p>`:''}</div>`;
+}
+
+function renderEditor(){
+  const seq=state.editId?getSeqs().find(s=>s.id===state.editId):null;
+  const poses=seq?seq.poses:[];const secs=['warmup','buildup','peak','cooldown'];
+  const secCls={warmup:'sb-wu',buildup:'sb-bu',peak:'sb-pk',cooldown:'sb-cd'};
+  const dotCls={warmup:'dot-wu',buildup:'dot-bu',peak:'dot-pk',cooldown:'dot-cd'};
+  const spCls={warmup:'sp-wu',buildup:'sp-bu',peak:'sp-pk',cooldown:'sp-cd'};
+  const totalMin=poses.reduce((s,p)=>{
+    if(p.type==='flow'){return s+(p.poses||[]).reduce((fs,fp)=>{const h=fp.hold||'';if(h.includes('min'))return fs+parseInt(h);if(h.includes('breath'))return fs+Math.ceil(parseInt(h)*.25);return fs+1;},0)*2;}
+    const h=p.hold||'';if(h.includes('min'))return s+parseInt(h);if(h.includes('breath'))return s+Math.ceil(parseInt(h)*.25);if(h.includes('round'))return s+parseInt(h)*2;return s+1;},0);
+  return `
+<div class="ed-hdr"><div style="display:flex;align-items:center;gap:8px"><button class="back" onclick="nav('home')">${IC.back}</button><span style="font-size:16px;font-weight:500">${t('sequenceEditor')}</span></div><div style="display:flex;align-items:center;gap:6px">${seq?`<button class="btn-del-seq" onclick="edDeleteSeq()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>`:''}<button class="btn-pri" onclick="edSave()">${IC.check} ${t('save')}</button></div></div>
+<div class="ed-meta"><input class="ed-name" value="${state.lang==='ko'?(seq?.titleKo||seq?.title||''):(seq?.title||'')}" placeholder="${state.lang==='ko'?'시퀀스 제목 입력':'Enter sequence title'}" data-field="title">
+<div class="ed-meta-row">
+<select class="select" data-field="style">${['vinyasa','hatha','yin','restorative','ashtanga','power'].map(s=>`<option value="${s}" ${seq?.style===s?'selected':''}>${t(s)}</option>`).join('')}</select>
+<select class="select" data-field="duration">${[30,60,90].map(d=>`<option value="${d}" ${seq?.duration===d?'selected':''}>${d} ${t('min')}</option>`).join('')}</select>
+<select class="select" data-field="level">${['beginner','intermediate','advanced','all'].map(l=>`<option value="${l}" ${seq?.level===l?'selected':''}>${t(l==='all'?'allLevels':l)}</option>`).join('')}</select>
+</div></div>
+<div class="ed-filt"><button class="pill ${state.edFilter==='all'?'on':''}" onclick="state.edFilter='all';render()">${t('all')}</button>${secs.map(s=>`<button class="pill ${spCls[s]} ${state.edFilter===s?'on':''}" onclick="state.edFilter='${s}';render()">${t(s==='peak'?'peakPose':s)}</button>`).join('')}</div>
+<div class="ed-poses">${secs.map(sec=>{
+  if(state.edFilter!=='all'&&state.edFilter!==sec)return '';
+  const sp=poses.filter(p=>p.section===sec);
+  return `<div class="sec-drop-zone" data-section="${sec}" ondragover="event.preventDefault();this.classList.add('drop-hover')" ondragleave="this.classList.remove('drop-hover')" ondrop="handleDrop(event,'${sec}');this.classList.remove('drop-hover')">
+<div class="sec-lbl"><div class="dot ${dotCls[sec]}"></div><span>${t(sec==='peak'?'peakPose':sec).toUpperCase()}</span>${sec==='peak'?`<span class="sec-opt">(${t('optional')})</span>`:''}</div>
+${sp.length?sp.map((p,i)=>{
+if(p.type==='flow'){
+  const repLbl={rtl:'R then L',ltr:'L then R',alt:'Alternating',none:'No repeat'};
+  const repLblKo={rtl:'오른쪽 먼저',ltr:'왼쪽 먼저',alt:'번갈아가며',none:'반복 없음'};
+  return `<div class="flow-group" draggable="true" data-pid="${p.id}" ondragstart="handleDragStart(event,'${p.id}')" ondragend="handleDragEnd(event)">
+<div class="flow-header"><div class="flow-header-left"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h3l2-4 2 8 2-4h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${state.lang==='ko'?'플로우 그룹':'Flow group'}</span></div>
+<div style="display:flex;gap:4px;align-items:center"><span class="flow-repeat-badge">${state.lang==='ko'?(repLblKo[p.repeat]||'오른쪽 먼저'):(repLbl[p.repeat]||'R then L')}</span><button class="pose-del" style="opacity:1" onclick="event.stopPropagation();edDelPose('${p.id}')">${IC.x}</button></div></div>
+<div class="flow-poses">${(p.poses||[]).map((fp,fi)=>`<div class="flow-pose-item"><div class="flow-pose-num">${fi+1}</div><div style="flex:1;cursor:pointer" onclick="edEditFlowHold('${p.id}',${fi})"><span style="font-size:13px;font-weight:500;color:var(--t1)">${state.lang==='ko'?(fp.pronun||fp.nameKo||fp.name):fp.name}</span><span style="font-size:11px;color:var(--t3);margin-left:6px">${fp.hold||'5 breaths'}</span>${state.lang==='ko'&&fp.nameKo&&fp.pronun?`<br><span style="font-size:11px;color:var(--t2)">${fp.nameKo}</span>`:(!state.lang==='ko'&&fp.sanskrit?`<br><span style="font-size:11px;color:var(--t2)">${fp.sanskrit}</span>`:'')}</div><button class="pose-del" style="opacity:1" onclick="event.stopPropagation();edDelFlowPose('${p.id}',${fi})">${IC.x}</button></div>`).join('')}</div>
+<div class="flow-footer"><button class="flow-add-btn" onclick="edAddFlowPose('${p.id}')">${IC.plus} <span>${state.lang==='ko'?'플로우에 추가':'Add to flow'}</span></button></div></div>`;
+}
+return `<div class="pose" draggable="true" data-pid="${p.id}" ondragstart="handleDragStart(event,'${p.id}')" ondragend="handleDragEnd(event)" ondragover="event.preventDefault()" ondrop="handleDropOnPose(event,'${p.id}','${sec}')"><div class="pose-grip">${IC.grip}</div><div class="sec-bar ${secCls[sec]}" style="height:28px"></div><div class="pose-body" onclick="edEditHold('${p.id}')" style="cursor:pointer"><div class="pose-row"><span class="pose-nm">${poseName(p)}</span><span class="pose-hd">${p.hold}</span></div>${poseSub(p)?`<p class="pose-sub">${poseSub(p)}${p.side==='left-right'?' / L + R':''}</p>`:''}</div><button class="pose-del" onclick="event.stopPropagation();edDelPose('${p.id}')">${IC.x}</button></div>`;
+}).join(''):''}
+${!sp.length?`<div class="drop-placeholder">${state.lang==='ko'?'여기에 드래그하세요':'Drop here'}</div>`:''}
+<div class="sec-add-wrap">
+<button class="sec-add-btn" onclick="toggleSecMenu('${sec}')">
+${IC.plus}<span>${state.lang==='ko'?'추가':'Add'}</span>
+</button>
+<div class="sec-add-menu hidden" id="sec-menu-${sec}">
+<button onclick="hideSecMenus();edAddPose('${sec}')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>${state.lang==='ko'?'동작 추가':'Add pose'}</button>
+<button onclick="hideSecMenus();edAddFlowToSec('${sec}')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h3l2-3 2 6 2-3h3" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>${state.lang==='ko'?'플로우 만들기':'Create flow'}</button>
+</div>
+</div>
+</div>`;
+}).join('')}</div>
+<div class="ed-bar"><div class="ed-stats"><span>${poseCount(poses)} ${t('poses')}</span><span style="color:var(--t3)">/</span><span>~${Math.round(totalMin)} ${t('min')}</span></div></div>`;
+}
+
+function renderAI(){
+  const styles=['vinyasa','hatha','yin','restorative','ashtanga','power'];
+  const levels=['beginner','intermediate','advanced'];
+  const focus=['hipOpener','backBend','core','balance','twist','shoulder','hamstring','inversion'];
+  return `
+<div class="ai-hdr"><button class="back" onclick="nav('home')">${IC.back}</button><h2 style="font-size:16px;font-weight:500">${t('aiSequenceGenerator')}</h2></div>
+<div class="ai-form">
+<div class="fg"><p class="fg-lbl">${t('yogaStyle')}</p><div class="chip-group">${styles.map(s=>`<button class="pill ${state.aiStyle===s?'on':''}" onclick="state.aiStyle='${s}';render()">${t(s)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('duration')}</p><div class="dur-grid">${[30,60,90].map(d=>`<div class="dur-card ${state.aiDur===d?'on':''}" onclick="state.aiDur=${d};render()"><span class="dur-num">${d}</span><span class="dur-unit">${t('min')}</span></div>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('level')}</p><div class="chip-group">${levels.map(l=>`<button class="pill ${state.aiLevel===l?'on':''}" onclick="state.aiLevel='${l}';render()">${t(l)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('focusArea')} <span class="fg-opt">(${t('optional')})</span></p><div class="chip-group">${focus.map(f=>`<button class="pill ${state.aiFocus.includes(f)?'on-alt':''}" onclick="toggleFocus('${f}')">${t(f)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('peakPoseInput')} <span class="fg-opt">(${t('optional')})</span></p><input class="input" placeholder="${t('peakPlaceholder')}" value="${state.aiPeak}" oninput="state.aiPeak=this.value"><p class="fg-hint">${t('aiBuildToward')}</p></div>
+<div class="fg"><p class="fg-lbl">${t('additionalNotes')} <span class="fg-opt">(${t('optional')})</span></p><textarea class="textarea" placeholder="${t('notesPlaceholder')}" oninput="state.aiNotes=this.value">${state.aiNotes}</textarea></div>
+<button class="gen-btn" onclick="aiGenerate()" ${state.aiLoading?'disabled':''}>${state.aiLoading?'<span class="spinner"></span><span>Generating...</span>':`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2.5 5h5l-4 3.5 1.5 5.5L9 12.5 4 16l1.5-5.5-4-3.5h5z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" fill="none"/></svg><span>${t('generateSequence')}</span>`}</button>
+</div>`;
+}
+
+function renderSettings(){
+  const key=getApiKey();
+  const naming=[{v:'en-sanskrit',l:t('enSanskrit')},{v:'en',l:t('enOnly')},{v:'sanskrit',l:t('skOnly')},{v:'ko-sanskrit',l:t('koSanskrit')}];
+  return `
+<div class="set-hdr"><button class="back" onclick="nav('home')">${IC.back}</button><h2 style="font-size:16px;font-weight:500">${t('settings')}</h2></div>
+<div class="set-body">
+<p class="set-sec">${t('aiConfiguration').toUpperCase()}</p>
+<div class="set-card"><div class="set-card-hdr"><p class="set-it">${t('claudeApiKey')}</p><span class="badge ${key?'b-conn':'b-disc'}">${key?t('connected'):t('notConnected')}</span></div>
+<div class="api-row"><input class="input api-in" type="password" id="api-input" value="${key}" placeholder="sk-ant-..." onblur="setApiKey(this.value);render()"><button class="btn-sec" style="padding:4px 12px;font-size:12px" onclick="const i=document.getElementById('api-input');i.type=i.type==='password'?'text':'password'">${t('show')}</button></div>
+<p class="set-hint">${t('storedLocally')}</p></div>
+<div class="set-card"><div class="set-row"><div><p class="set-it">${t('aiModel')}</p><p class="set-hint">${t('usedForGeneration')}</p></div><select class="select" onchange="state.aiModel=this.value;saveSettings()"><option value="claude-sonnet-4-20250514" ${state.aiModel.includes('sonnet')?'selected':''}>Claude Sonnet 4</option><option value="claude-haiku-4-5-20251001" ${state.aiModel.includes('haiku')?'selected':''}>Claude Haiku 4.5</option></select></div></div>
+
+<p class="set-sec">${t('general').toUpperCase()}</p>
+<div class="set-grp">
+<div class="set-row brd"><p class="set-it">${t('language')}</p><div class="lang-tog"><button class="lang-btn ${state.lang==='ko'?'on':''}" onclick="state.lang='ko';saveSettings();render()">KO</button><button class="lang-btn ${state.lang==='en'?'on':''}" onclick="state.lang='en';saveSettings();render()">EN</button></div></div>
+<div class="set-row brd"><div><p class="set-it">${t('darkMode')}</p><p class="set-hint">${t('followSystem')}</p></div><div class="tog-track ${state.theme==='dark'?'on':''}" onclick="state.theme=state.theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',state.theme);saveSettings();render()"><div class="tog-thumb"></div></div></div>
+<div class="set-row"><p class="set-it">${t('poseNaming')}</p><select class="select" onchange="state.poseNaming=this.value;saveSettings();render()">${naming.map(n=>`<option value="${n.v}" ${state.poseNaming===n.v?'selected':''}>${n.l}</option>`).join('')}</select></div>
+</div>
+
+<p class="set-sec">${t('data').toUpperCase()}</p>
+<div class="set-grp">
+<div class="set-row brd clk" onclick="exportData()"><div><p class="set-it">${t('exportData')}</p><p class="set-hint">${t('exportDesc')}</p></div>${IC.arr}</div>
+<div class="set-row brd clk" onclick="importData()"><div><p class="set-it">${t('importData')}</p><p class="set-hint">${t('importDesc')}</p></div>${IC.arr}</div>
+<div class="set-row clk" onclick="deleteData()"><div><p class="set-it dng">${t('deleteAll')}</p><p class="set-hint">${t('deleteDesc')}</p></div>${IC.arr}</div>
+</div>
+
+<p class="set-sec">${t('about').toUpperCase()}</p>
+<div class="set-grp">
+<div class="set-row brd"><p class="set-it">${t('version')}</p><span style="font-size:13px;color:var(--t3)">1.5.0</span></div>
+<div class="set-row clk" onclick="window.open('https://github.com','_blank')"><p class="set-it">GitHub</p>${IC.ext}</div>
+</div></div>`;
+}
+
+// Editor functions
+let dragPoseId=null;let dragEl=null;let dragGhost=null;let touchStartY=0;let isDragging=false;
+function handleDragStart(e,pid){dragPoseId=pid;e.dataTransfer.effectAllowed='move';e.target.classList.add('drag');}
+function handleDragEnd(e){dragPoseId=null;e.target.classList.remove('drag');document.querySelectorAll('.drop-hover').forEach(el=>el.classList.remove('drop-hover'));}
+function handleDrop(e,targetSec){
+  e.preventDefault();if(!dragPoseId)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const pose=seq.poses.find(p=>p.id===dragPoseId);if(!pose)return;
+  pose.section=targetSec;
+  saveSeq(seq);dragPoseId=null;render();
+}
+function handleDropOnPose(e,targetPid,targetSec){
+  e.preventDefault();e.stopPropagation();if(!dragPoseId||dragPoseId===targetPid)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const fromIdx=seq.poses.findIndex(p=>p.id===dragPoseId);
+  const toIdx=seq.poses.findIndex(p=>p.id===targetPid);
+  if(fromIdx<0||toIdx<0)return;
+  const [moved]=seq.poses.splice(fromIdx,1);
+  moved.section=targetSec;
+  seq.poses.splice(toIdx,0,moved);
+  saveSeq(seq);dragPoseId=null;render();
+}
+
+// Touch drag-drop for mobile
+function initTouchDrag(){
+  document.addEventListener('touchstart',function(e){
+    const grip=e.target.closest('.pose-grip');
+    const flowGrip=e.target.closest('.flow-header');
+    if(!grip&&!flowGrip)return;
+    const pose=grip?grip.closest('.pose'):flowGrip.closest('.flow-group');
+    if(!pose)return;
+    e.preventDefault();
+    const pid=pose.dataset.pid;
+    dragPoseId=pid;dragEl=pose;touchStartY=e.touches[0].clientY;isDragging=false;
+    dragEl.style.transition='none';
+  },{passive:false});
+
+  document.addEventListener('touchmove',function(e){
+    if(!dragEl||!dragPoseId)return;
+    e.preventDefault();
+    const dy=e.touches[0].clientY-touchStartY;
+    if(Math.abs(dy)>8)isDragging=true;
+    if(!isDragging)return;
+    dragEl.style.opacity='0.5';dragEl.style.transform=`translateY(${dy}px)`;dragEl.style.zIndex='50';
+    const touch=e.touches[0];
+    document.querySelectorAll('.sec-drop-zone').forEach(zone=>{
+      const r=zone.getBoundingClientRect();
+      if(touch.clientY>=r.top&&touch.clientY<=r.bottom){zone.classList.add('drop-hover');}
+      else{zone.classList.remove('drop-hover');}
+    });
+    document.querySelectorAll('.pose').forEach(p=>{
+      if(p===dragEl)return;
+      const r=p.getBoundingClientRect();
+      const mid=r.top+r.height/2;
+      if(touch.clientY>=r.top&&touch.clientY<=r.bottom){
+        p.style.borderTop=touch.clientY<mid?'2px solid var(--pri400)':'';
+        p.style.borderBottom=touch.clientY>=mid?'2px solid var(--pri400)':'';
+      }else{p.style.borderTop='';p.style.borderBottom='';}
+    });
+  },{passive:false});
+
+  document.addEventListener('touchend',function(e){
+    if(!dragEl||!dragPoseId){return;}
+    if(!isDragging){dragEl.style.opacity='';dragEl.style.transform='';dragEl.style.zIndex='';dragEl.style.transition='';dragPoseId=null;dragEl=null;return;}
+    const touch=e.changedTouches[0];
+    let dropped=false;
+    // Check if dropped on another pose
+    document.querySelectorAll('.pose').forEach(p=>{
+      if(p===dragEl)return;
+      const r=p.getBoundingClientRect();
+      if(touch.clientY>=r.top&&touch.clientY<=r.bottom){
+        const targetPid=p.dataset.pid;
+        const targetZone=p.closest('.sec-drop-zone');
+        const targetSec=targetZone?targetZone.dataset.section:'buildup';
+        const seq=getSeqs().find(s=>s.id===state.editId);
+        if(seq){
+          const fi=seq.poses.findIndex(x=>x.id===dragPoseId);
+          const ti=seq.poses.findIndex(x=>x.id===targetPid);
+          if(fi>=0&&ti>=0){
+            const [mv]=seq.poses.splice(fi,1);mv.section=targetSec;
+            const mid=r.top+r.height/2;
+            const insertAt=touch.clientY<mid?ti:(fi<ti?ti:ti+1);
+            seq.poses.splice(Math.min(insertAt,seq.poses.length),0,mv);
+            saveSeq(seq);dropped=true;
+          }
+        }
+      }
+    });
+    // Check if dropped on empty section
+    if(!dropped){
+      document.querySelectorAll('.sec-drop-zone').forEach(zone=>{
+        const r=zone.getBoundingClientRect();
+        if(touch.clientY>=r.top&&touch.clientY<=r.bottom){
+          const targetSec=zone.dataset.section;
+          const seq=getSeqs().find(s=>s.id===state.editId);
+          if(seq){const pose=seq.poses.find(x=>x.id===dragPoseId);if(pose){pose.section=targetSec;saveSeq(seq);dropped=true;}}
+        }
+      });
+    }
+    // Cleanup
+    document.querySelectorAll('.pose').forEach(p=>{p.style.borderTop='';p.style.borderBottom='';});
+    document.querySelectorAll('.drop-hover').forEach(el=>el.classList.remove('drop-hover'));
+    if(dragEl){dragEl.style.opacity='';dragEl.style.transform='';dragEl.style.zIndex='';dragEl.style.transition='';}
+    dragPoseId=null;dragEl=null;isDragging=false;
+    if(dropped)render();
+  });
+}
+initTouchDrag();
+let addSec='buildup';
+function edAddPose(sec){
+  addSec=sec;
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('modal').innerHTML=renderAsanaModal(sec);
+  setTimeout(()=>{const inp=document.getElementById('asana-search');if(inp)inp.focus();},100);
+}
+function renderAsanaModal(sec){
+  const q=(document.getElementById('asana-search')||{}).value||'';
+  const secFilter=document.getElementById('asana-sec-filter')?.value||'all';
+  let list=ADB;
+  if(secFilter!=='all')list=list.filter(a=>a.section===secFilter);
+  if(q){const lq=q.toLowerCase();list=list.filter(a=>a.name.toLowerCase().includes(lq)||a.nameKo.includes(lq)||a.sanskrit.toLowerCase().includes(lq)||(a.alias&&a.alias.toLowerCase().includes(lq))||(a.pronun&&a.pronun.includes(lq)));}
+  const lvlC={beginner:'b-beg',intermediate:'b-int',advanced:'b-adv'};
+  const secC={warmup:'sb-wu',buildup:'sb-bu',peak:'sb-pk',cooldown:'sb-cd'};
+  return `<h3>${t('addPose')}</h3>
+<div style="margin-bottom:12px">
+<div class="search-wrap" style="margin-bottom:8px">${IC.search}<input class="search-in" id="asana-search" placeholder="${state.lang==='ko'?'아사나 검색 (한/영/산스크리트)':'Search poses...'}" value="${q}" oninput="updateAsanaList()"></div>
+<div style="display:flex;gap:4px;overflow-x:auto;scrollbar-width:none"><button class="pill ${secFilter==='all'?'on':''}" onclick="document.getElementById('asana-sec-filter').value='all';updateAsanaList()">${t('all')}</button><button class="pill sp-wu ${secFilter==='warmup'?'on':''}" onclick="document.getElementById('asana-sec-filter').value='warmup';updateAsanaList()">${t('warmup')}</button><button class="pill sp-bu ${secFilter==='buildup'?'on':''}" onclick="document.getElementById('asana-sec-filter').value='buildup';updateAsanaList()">${t('buildup')}</button><button class="pill sp-pk ${secFilter==='peak'?'on':''}" onclick="document.getElementById('asana-sec-filter').value='peak';updateAsanaList()">${t('peakPose')}</button><button class="pill sp-cd ${secFilter==='cooldown'?'on':''}" onclick="document.getElementById('asana-sec-filter').value='cooldown';updateAsanaList()">${t('cooldown')}</button></div>
+<select class="select" id="asana-sec-filter" style="display:none"><option value="all"></option><option value="warmup"></option><option value="buildup"></option><option value="peak"></option><option value="cooldown"></option></select>
+</div>
+<div style="flex:1;overflow-y:auto;margin:0 -4px;min-height:0">
+${list.map(a=>`<div class="asana-row" onclick="pickAsana('${a.id}')">
+<div class="sec-bar ${secC[a.section]}" style="height:32px"></div>
+<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500;color:var(--t1)">${state.lang==='ko'?(a.pronun||a.sanskrit):a.name}</span><span class="badge ${lvlC[a.level]}">${t(a.level)}</span></div><p style="font-size:11px;color:var(--t2);margin-top:2px">${state.lang==='ko'?a.nameKo:a.sanskrit}${a.side==='left-right'?' / L+R':''}</p>${q&&a.alias&&a.alias.toLowerCase().includes(q.toLowerCase())?`<p style="font-size:10px;color:var(--t3);margin-top:1px">${a.alias}</p>`:''}</div>
+</div>`).join('')}
+${list.length===0?`<p style="text-align:center;padding:24px;color:var(--t3);font-size:13px">${state.lang==='ko'?'결과 없음':'No results'}</p>`:''}
+</div>
+<div style="margin-top:12px;text-align:right"><button class="btn-sec" onclick="closeModal()">${t('cancel')}</button></div>`;
+}
+function updateAsanaList(){
+  const sec=document.getElementById('asana-sec-filter')?.value||'all';
+  document.getElementById('modal').innerHTML=renderAsanaModal(sec);
+  const sel=document.getElementById('asana-sec-filter');if(sel)sel.value=sec;
+  const inp=document.getElementById('asana-search');if(inp){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);}
+}
+function pickAsana(aid){
+  const a=ADB.find(x=>x.id===aid);if(!a)return;
+  const seq=state.editId?getSeqs().find(s=>s.id===state.editId):null;
+  const poses=seq?[...seq.poses]:[];
+  poses.push({id:uid(),name:a.name,nameKo:a.nameKo,sanskrit:a.sanskrit,pronun:a.pronun||'',section:addSec!=='all'?addSec:a.section,hold:'5 breaths',side:a.side});
+  if(seq){seq.poses=poses;saveSeq(seq);}else{const ns={id:uid(),title:'Enter sequence title',titleKo:'시퀀스 제목 입력',style:'vinyasa',duration:60,level:'intermediate',tags:[],source:'manual',poses};saveSeq(ns);state.editId=ns.id;}
+  closeModal();render();
+}
+function closeModal(){document.getElementById('modal-bg').classList.add('hidden');render();}
+
+// Class management
+function clsDays(cls){return Array.isArray(cls?.days)?cls.days:(cls?.dayOfWeek!=null?[cls.dayOfWeek]:[])}
+function openClassModal(classId){
+  const cls=classId?getClasses().find(c=>c.id===classId):null;
+  const days=[{v:1,l:'mon'},{v:2,l:'tue'},{v:3,l:'wed'},{v:4,l:'thu'},{v:5,l:'fri'},{v:6,l:'sat'},{v:0,l:'sun'}];
+  const today=new Date().getDay();
+  const selectedDays=cls?clsDays(cls):[today];
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('modal').innerHTML=`
+<h3>${cls?t('editClass'):t('newClass')}</h3>
+<div class="mf"><label>${t('className')}</label><input class="input" id="cls-name" value="${cls?(state.lang==='ko'?(cls.nameKo||cls.name):cls.name):''}" placeholder="${state.lang==='ko'?'예: 모닝 플로우':'e.g. Morning flow'}"></div>
+<div class="mf"><label>${t('classDay')}</label>
+<div style="display:flex;gap:4px;flex-wrap:wrap">${days.map(d=>`<button class="pill cls-day-pill ${selectedDays.includes(d.v)?'on':''}" data-day="${d.v}" onclick="this.classList.toggle('on')">${t(d.l)}</button>`).join('')}
+<button class="pill cls-day-all" style="margin-left:4px" onclick="const on=document.querySelectorAll('.cls-day-pill.on').length<7;document.querySelectorAll('.cls-day-pill').forEach(p=>{if(on)p.classList.add('on');else p.classList.remove('on')})">${t('everyDay')}</button>
+</div></div>
+<div class="mf-row" style="display:flex;gap:8px">
+<div class="mf" style="flex:1"><label>${t('classTime')}</label><input class="input" id="cls-time" type="time" value="${cls?cls.time:'09:00'}"></div>
+<div class="mf" style="flex:1"><label>${t('classEndTime')}</label><input class="input" id="cls-end" type="time" value="${cls?cls.endTime||'':'10:00'}"></div>
+</div>
+<div class="modal-acts">
+${cls?`<button class="btn-sec dng" onclick="confirmDeleteClass('${cls.id}')" id="cls-del-btn">${t('deleteClass')}</button>`:''}
+<div style="flex:1"></div>
+<button class="btn-sec" onclick="closeModal()">${t('cancel')}</button>
+<button class="btn-pri" onclick="saveClassFromModal('${cls?cls.id:''}')">${t('saveClass')}</button>
+</div>`;
+}
+function saveClassFromModal(existingId){
+  const name=document.getElementById('cls-name').value.trim();
+  if(!name)return;
+  const time=document.getElementById('cls-time').value;
+  const endTime=document.getElementById('cls-end').value;
+  const dayEls=document.querySelectorAll('.cls-day-pill.on');
+  const days=Array.from(dayEls).map(el=>parseInt(el.dataset.day));
+  if(days.length===0)return;
+  const cls={
+    id:existingId||uid(),
+    name:name,nameKo:name,
+    time:time,endTime:endTime,
+    days:days
+  };
+  saveClass(cls);closeModal();
+}
+let clsDelConfirm=false;
+function confirmDeleteClass(id){
+  if(clsDelConfirm){deleteClass(id);clsDelConfirm=false;closeModal();}
+  else{clsDelConfirm=true;const btn=document.getElementById('cls-del-btn');if(btn)btn.textContent=t('confirmDelete');setTimeout(()=>{clsDelConfirm=false;},3000);}
+}
+
+// Flow group functions
+function toggleSecMenu(sec){
+  hideSecMenus();
+  const menu=document.getElementById('sec-menu-'+sec);
+  if(menu)menu.classList.toggle('hidden');
+}
+function hideSecMenus(){document.querySelectorAll('.sec-add-menu').forEach(m=>m.classList.add('hidden'));}
+function edAddFlowToSec(sec){
+  let seq=state.editId?getSeqs().find(s=>s.id===state.editId):null;
+  if(!seq){
+    seq={id:uid(),title:'Enter sequence title',titleKo:'시퀀스 제목 입력',style:'vinyasa',duration:60,level:'intermediate',tags:[],source:'manual',poses:[]};
+    saveSeq(seq);state.editId=seq.id;
+  }
+  const flowItem={id:uid(),type:'flow',section:sec,repeat:'rtl',poses:[]};
+  seq.poses.push(flowItem);saveSeq(seq);
+  edAddFlowPose(flowItem.id);
+}
+function edAddFlow(){
+  let seq=state.editId?getSeqs().find(s=>s.id===state.editId):null;
+  if(!seq){
+    seq={id:uid(),title:'Enter sequence title',titleKo:'시퀀스 제목 입력',style:'vinyasa',duration:60,level:'intermediate',tags:[],source:'manual',poses:[]};
+    saveSeq(seq);state.editId=seq.id;
+  }
+  const flowItem={id:uid(),type:'flow',section:'buildup',repeat:'rtl',poses:[]};
+  seq.poses.push(flowItem);saveSeq(seq);
+  edAddFlowPose(flowItem.id);
+}
+let flowTargetId=null;
+function edAddFlowPose(flowId){
+  flowTargetId=flowId;
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('modal').innerHTML=renderFlowAsanaModal();
+  setTimeout(()=>{const inp=document.getElementById('flow-asana-search');if(inp)inp.focus();},100);
+}
+function renderFlowAsanaModal(){
+  const q=(document.getElementById('flow-asana-search')||{}).value||'';
+  let list=ADB.filter(a=>a.side==='left-right');
+  if(q){const lq=q.toLowerCase();list=list.filter(a=>a.name.toLowerCase().includes(lq)||a.nameKo.includes(lq)||a.sanskrit.toLowerCase().includes(lq)||(a.alias&&a.alias.toLowerCase().includes(lq))||(a.pronun&&a.pronun.includes(lq)));}
+  const lvlC={beginner:'b-beg',intermediate:'b-int',advanced:'b-adv'};
+  return `<h3>${state.lang==='ko'?'플로우에 포즈 추가':'Add pose to flow'}</h3>
+<p style="font-size:11px;color:var(--t3);margin:-8px 0 12px">${state.lang==='ko'?'좌우 동작만 표시됩니다':'Showing left-right poses only'}</p>
+<div style="margin-bottom:12px"><div class="search-wrap">${IC.search}<input class="search-in" id="flow-asana-search" placeholder="${state.lang==='ko'?'아사나 검색':'Search poses...'}" value="${q}" oninput="updateFlowAsanaList()"></div></div>
+<div style="flex:1;overflow-y:auto;min-height:0">
+${list.map(a=>`<div class="asana-row" onclick="pickFlowAsana('${a.id}')">
+<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500;color:var(--t1)">${state.lang==='ko'?(a.pronun||a.sanskrit):a.name}</span><span class="badge ${lvlC[a.level]||'b-beg'}">${t(a.level)}</span></div><p style="font-size:11px;color:var(--t2);margin-top:2px">${state.lang==='ko'?a.nameKo:a.sanskrit}</p></div>
+</div>`).join('')}
+${list.length===0?`<p style="text-align:center;padding:24px;color:var(--t3);font-size:13px">${state.lang==='ko'?'결과 없음':'No results'}</p>`:''}
+</div>
+<div style="margin-top:12px;display:flex;gap:8px;justify-content:space-between">
+<button class="btn-sec" onclick="closeModal()">${state.lang==='ko'?'완료':'Done'}</button>
+<div style="display:flex;gap:4px;align-items:center">
+<span style="font-size:11px;color:var(--t3)">${state.lang==='ko'?'반복':'Repeat'}:</span>
+<select class="select" onchange="setFlowRepeat(this.value)" style="padding:4px 8px"><option value="rtl" selected>${state.lang==='ko'?'오른쪽 먼저':'R then L'}</option><option value="ltr">${state.lang==='ko'?'왼쪽 먼저':'L then R'}</option><option value="alt">${state.lang==='ko'?'번갈아':'Alternating'}</option><option value="none">${state.lang==='ko'?'반복 없음':'No repeat'}</option></select>
+</div></div>`;
+}
+function updateFlowAsanaList(){
+  document.getElementById('modal').innerHTML=renderFlowAsanaModal();
+  const inp=document.getElementById('flow-asana-search');if(inp){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);}
+}
+function pickFlowAsana(aid){
+  const a=ADB.find(x=>x.id===aid);if(!a||!flowTargetId)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const flow=seq.poses.find(p=>p.id===flowTargetId);if(!flow||flow.type!=='flow')return;
+  flow.poses.push({name:a.name,nameKo:a.nameKo,sanskrit:a.sanskrit,pronun:a.pronun||'',hold:'5 breaths'});
+  saveSeq(seq);
+  // Update modal without full render to avoid flicker
+  document.getElementById('modal').innerHTML=renderFlowAsanaModal();
+  setTimeout(()=>{const inp=document.getElementById('flow-asana-search');if(inp)inp.focus();},50);
+}
+function setFlowRepeat(val){
+  if(!flowTargetId)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const flow=seq.poses.find(p=>p.id===flowTargetId);if(!flow)return;
+  flow.repeat=val;saveSeq(seq);
+}
+function edDelFlowPose(flowId,idx){
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const flow=seq.poses.find(p=>p.id===flowId);if(!flow||!flow.poses)return;
+  flow.poses.splice(idx,1);
+  if(flow.poses.length===0){seq.poses=seq.poses.filter(p=>p.id!==flowId);}
+  saveSeq(seq);render();
+}
+function edDelPose(pid){
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  seq.poses=seq.poses.filter(p=>p.id!==pid);saveSeq(seq);render();
+}
+function edEditHold(pid){
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const pose=seq.poses.find(p=>p.id===pid);if(!pose)return;
+  const opts=state.lang==='ko'?['5회 호흡','8회 호흡','10회 호흡','30초','1분','2분','3라운드','5라운드']:['5 breaths','8 breaths','10 breaths','30 sec','1 min','2 min','3 rounds','5 rounds'];
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('modal').innerHTML=`<h3>${state.lang==='ko'?'유지 시간 수정':'Edit hold time'}</h3>
+<p style="font-size:13px;color:var(--t2);margin-bottom:16px">${poseName(pose)}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">${opts.map(o=>`<button class="pill ${pose.hold===o?'on':''}" onclick="setHold('${pid}','${o}')">${o}</button>`).join('')}</div>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px"><input class="input" id="custom-hold" value="${pose.hold}" placeholder="${state.lang==='ko'?'직접 입력':'Custom'}" style="flex:1"><button class="btn-pri" onclick="setHold('${pid}',document.getElementById('custom-hold').value)">${state.lang==='ko'?'적용':'Apply'}</button></div>
+<button class="btn-sec" style="width:100%" onclick="closeModal()">${t('cancel')}</button>`;
+}
+function setHold(pid,val){
+  if(!val)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const pose=seq.poses.find(p=>p.id===pid);if(!pose)return;
+  pose.hold=val;saveSeq(seq);closeModal();
+}
+function edEditFlowHold(flowId,idx){
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const flow=seq.poses.find(p=>p.id===flowId);if(!flow||!flow.poses||!flow.poses[idx])return;
+  const fp=flow.poses[idx];
+  const opts=state.lang==='ko'?['5회 호흡','8회 호흡','10회 호흡','30초','1분','2분']:['5 breaths','8 breaths','10 breaths','30 sec','1 min','2 min'];
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('modal').innerHTML=`<h3>${state.lang==='ko'?'유지 시간 수정':'Edit hold time'}</h3>
+<p style="font-size:13px;color:var(--t2);margin-bottom:16px">${state.lang==='ko'?(fp.pronun||fp.nameKo||fp.name):fp.name}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">${opts.map(o=>`<button class="pill ${(fp.hold||'5 breaths')===o?'on':''}" onclick="setFlowHold('${flowId}',${idx},'${o}')">${o}</button>`).join('')}</div>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:16px"><input class="input" id="custom-hold" value="${fp.hold||'5 breaths'}" placeholder="${state.lang==='ko'?'직접 입력':'Custom'}" style="flex:1"><button class="btn-pri" onclick="setFlowHold('${flowId}',${idx},document.getElementById('custom-hold').value)">${state.lang==='ko'?'적용':'Apply'}</button></div>
+<button class="btn-sec" style="width:100%" onclick="closeModal()">${t('cancel')}</button>`;
+}
+function setFlowHold(flowId,idx,val){
+  if(!val)return;
+  const seq=getSeqs().find(s=>s.id===state.editId);if(!seq)return;
+  const flow=seq.poses.find(p=>p.id===flowId);if(!flow||!flow.poses||!flow.poses[idx])return;
+  flow.poses[idx].hold=val;saveSeq(seq);closeModal();
+}
+let delSeqConfirm=false;
+function edDeleteSeq(){
+  if(!state.editId)return;
+  if(!delSeqConfirm){delSeqConfirm=true;
+    const btn=document.querySelector('.btn-del-seq');
+    if(btn){btn.style.color='var(--d-txt)';btn.style.background='var(--d-bg)';btn.title=state.lang==='ko'?'다시 탭하면 삭제됩니다':'Tap again to delete';}
+    setTimeout(()=>{delSeqConfirm=false;render();},3000);return;}
+  delSeq(state.editId);delSeqConfirm=false;nav('home');
+}
+function edSave(){
+  const seq=getSeqs().find(s=>s.id===state.editId);
+  if(!seq){const el=document.querySelector('.ed-name');const ns={id:uid(),title:el?.value||'Enter sequence title',titleKo:el?.value||'시퀀스 제목 입력',style:'vinyasa',duration:60,level:'intermediate',tags:[],source:'manual',poses:[]};saveSeq(ns);state.editId=ns.id;}
+  else{const el=document.querySelector('.ed-name');if(el){if(state.lang==='ko')seq.titleKo=el.value;else seq.title=el.value;}
+  const selects=document.querySelectorAll('.ed-meta-row .select');
+  if(selects[0])seq.style=selects[0].value;if(selects[1])seq.duration=+selects[1].value;if(selects[2])seq.level=selects[2].value;
+  saveSeq(seq);}
+  nav('home');
+}
+
+// AI
+function toggleFocus(f){if(state.aiFocus.includes(f))state.aiFocus=state.aiFocus.filter(x=>x!==f);else state.aiFocus.push(f);render();}
+async function aiGenerate(){
+  const key=getApiKey();if(!key){alert(state.lang==='ko'?'설정에서 Claude API 키를 먼저 입력해주세요.':'Please set your Claude API key in Settings first.');nav('settings');return;}
+  state.aiLoading=true;render();
+  try{
+    const prompt=`You are an experienced yoga teacher. Create a yoga sequence with these parameters:
+- Style: ${state.aiStyle}
+- Duration: ${state.aiDur} minutes
+- Level: ${state.aiLevel}
+${state.aiFocus.length?`- Focus areas: ${state.aiFocus.join(', ')}`:''}
+${state.aiPeak?`- Peak pose: ${state.aiPeak}`:''}
+${state.aiNotes?`- Additional notes: ${state.aiNotes}`:''}
+Return ONLY a JSON array of poses. Each pose: {name, nameKo, sanskrit, section (warmup/buildup/peak/cooldown), hold (e.g. "5 breaths"), side (both/left-right)}. Valid JSON only.`;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:state.aiModel,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();const txt=data.content?.[0]?.text||'';
+    const clean=txt.replace(/```json\n?|```/g,'').trim();const poses=JSON.parse(clean);
+    if(Array.isArray(poses)){const ns={id:uid(),title:`AI ${state.aiStyle} sequence`,titleKo:`AI ${t(state.aiStyle)} 시퀀스`,style:state.aiStyle,duration:state.aiDur,level:state.aiLevel,tags:[],source:'ai',poses:poses.map(p=>({...p,id:uid()}))};saveSeq(ns);lastPage=state.page;state.editId=ns.id;state.page='editor';}
+  }catch(e){console.error(e);alert(state.lang==='ko'?'생성에 실패했습니다. API 키를 확인해주세요.':'Generation failed. Check your API key.');}
+  state.aiLoading=false;render();
+}
+
+// Data
+function exportData(){
+  const data={sequences:getSeqs(),classes:getClasses(),settings:LS.get(KEYS.SET),version:'1.5.0',exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`yoga-sequences-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);
+}
+function importData(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.sequences)LS.set(KEYS.SEQ,d.sequences);if(d.classes)LS.set(KEYS.CLS,d.classes);if(d.settings)LS.set(KEYS.SET,d.settings);loadSettings();render();}catch{alert('Invalid file');}};r.readAsText(f);};
+  input.click();
+}
+let delConfirm=false;
+function deleteData(){if(delConfirm){Object.values(KEYS).forEach(k=>localStorage.removeItem(k));delConfirm=false;initSample();loadSettings();render();}else{delConfirm=true;setTimeout(()=>{delConfirm=false},3000);const el=document.querySelector('.dng');if(el)el.textContent=t('confirmDelete');}}
+
+function bindEvents(){
+  document.addEventListener('click',function(e){if(!e.target.closest('.sec-add-wrap'))hideSecMenus();});
+}
+
+// Init
+initSample();
+const APP_VER='1.5.0';
+if(localStorage.getItem('yoga_ver')!==APP_VER){
+  LS.del(KEYS.SET);localStorage.setItem('yoga_ver',APP_VER);saveSettings();
+}
+loadSettings();render();
+
+// PWA: Inline manifest
+const manifest={name:'Yoga Sequence Note',short_name:'Yoga Note',start_url:location.href.split('?')[0],display:'standalone',background_color:'#141414',theme_color:'#141414',icons:[{src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#141414"/><circle cx="256" cy="180" r="40" fill="#C8E6A0"/><path d="M256 230c-30 0-60 40-60 100s20 80 60 80 60-20 60-80-30-100-60-100z" fill="#C8E6A0" opacity=".7"/><path d="M196 310c-20-10-50 0-60 30" stroke="#70C8B0" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M316 310c20-10 50 0 60 30" stroke="#70C8B0" stroke-width="8" stroke-linecap="round" fill="none"/></svg>'),type:'image/svg+xml',sizes:'512x512',purpose:'any'}]};
+const mBlob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const mUrl=URL.createObjectURL(mBlob);
+const mLink=document.createElement('link');mLink.rel='manifest';mLink.href=mUrl;document.head.appendChild(mLink);
+
+// PWA: Service worker (cache-first for offline)
+if('serviceWorker' in navigator){
+  const swCode=`
+const CACHE='yoga-v${APP_VER}';
+const ASSETS=[self.location.href.split('?')[0]];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{if(e.request.url.includes('fonts.googleapis.com')||e.request.url.includes('fonts.gstatic.com')){e.respondWith(caches.open(CACHE).then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{c.put(e.request,res.clone());return res}))));return;}
+e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
+  const swBlob=new Blob([swCode],{type:'application/javascript'});
+  const swUrl=URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+</script>
+</body>
+</html>
