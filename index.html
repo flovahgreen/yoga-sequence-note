@@ -83,6 +83,24 @@ input,select,textarea{font-family:inherit}
 .b-ai{background:rgba(184,180,232,.15);color:#B8B4E8}
 .pill{font-size:12px;padding:5px 12px;border-radius:var(--r-full);cursor:pointer;white-space:nowrap;background:var(--pillIn);color:var(--pillInT);transition:all .2s cubic-bezier(.25,.1,.25,1)}
 .pill.on{background:var(--pillAct);color:var(--pillActT)}
+.pill.on-vinyasa{background:#C8E6A0;color:#2a4a10}
+.pill.on-hatha{background:#70C8B0;color:#0a3a2a}
+.pill.on-yin{background:#B8B4E8;color:#2A2468}
+.pill.on-restorative{background:#A0E8E0;color:#0a4a4a}
+.pill.on-ashtanga{background:#F0C895;color:#5a3a10}
+.pill.on-power{background:#F09595;color:#791F1F}
+.pill.on-beginner{background:#A0E8E0;color:#0a4a4a}
+.pill.on-intermediate{background:#C8E6A0;color:#2a4a10}
+.pill.on-advanced{background:#B8B4E8;color:#2A2468}
+.pill.on-allLevels{background:#70C8B0;color:#0a3a2a}
+.pill.on-focus{background:rgba(200,230,160,.2);color:#C8E6A0}
+[data-theme=light] .pill.on-vinyasa{background:#d8f0b0;color:#2a4a10}
+[data-theme=light] .pill.on-hatha{background:#90d8c4;color:#0a3a2a}
+[data-theme=light] .pill.on-yin{background:#c8c4f0;color:#2A2468}
+[data-theme=light] .pill.on-restorative{background:#b0f0e8;color:#0a4a4a}
+[data-theme=light] .pill.on-ashtanga{background:#f0d4a8;color:#5a3a10}
+[data-theme=light] .pill.on-power{background:#f0b0b0;color:#791F1F}
+[data-theme=light] .pill.on-focus{background:rgba(74,154,48,.12);color:#4A9A30}
 .pill:active{transform:scale(.93)}
 .btn-pri{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r-md);background:#6B64C0;color:#fff;font-size:13px;font-weight:500;transition:opacity var(--tr)}
 .btn-pri:hover{opacity:.9}.btn-pri:active{transform:scale(.98)}
@@ -132,9 +150,11 @@ input,select,textarea{font-family:inherit}
 .seq-card{margin:0 20px 10px;cursor:pointer}
 .swipe-wrap{position:relative;overflow:hidden;border-radius:var(--r-lg);margin-bottom:8px}
 .swipe-del{position:absolute;right:0;top:0;bottom:0;width:80px;display:flex;align-items:center;justify-content:center;background:#E53935;color:#fff;font-size:13px;font-weight:500;border-radius:0 var(--r-lg) var(--r-lg) 0;z-index:1}
-.swipe-inner{position:relative;z-index:2;transition:transform .25s cubic-bezier(.25,.1,.25,1);background:var(--card);border:.5px solid var(--cardBd);border-radius:var(--r-lg);padding:14px 16px}
+.swipe-inner{position:relative;z-index:2;transition:transform .35s cubic-bezier(.32,.72,0,1);background:var(--bg2);border:.5px solid var(--cardBd);border-radius:var(--r-lg);padding:14px 16px;will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .swipe-inner.swiping{transition:none}
 .swipe-inner.open{transform:translateX(-80px)}
+.swipe-del{opacity:0;transition:opacity .25s ease}
+.swipe-wrap.revealing .swipe-del{opacity:1}
 .seq-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .seq-info{flex:1;min-width:0}
 .seq-title{font-size:15px;font-weight:500;color:var(--t1)}
@@ -206,7 +226,8 @@ input,select,textarea{font-family:inherit}
 .ed-stats{display:flex;gap:4px;font-size:12px;color:var(--t2)}
 
 /* List */
-.list-hdr{padding:12px 20px}
+.list-hdr{padding:12px 20px;display:flex;flex-direction:column;gap:8px}
+.list-hdr-top{display:flex;align-items:center;gap:8px;border-bottom:.5px solid var(--bd);padding-bottom:12px}
 .list-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .list-top h1{font-family:var(--sans);font-size:18px;letter-spacing:0;font-weight:500}
 .search-wrap{flex:1;display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg2);border-radius:var(--r-md);border:.5px solid var(--bd);color:var(--t3)}
@@ -601,9 +622,9 @@ function renderList(){
   else if(state.listSort==='duration')filtered.sort((a,b)=>a.duration-b.duration);
   else filtered.sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
   return `
-<div class="list-hdr"><div class="list-top"><h1>${t('mySequences')}</h1><span style="font-size:12px;color:var(--t3)">${t('total')} ${seqs.length}</span></div>
+<div class="list-hdr"><div class="list-hdr-top"><button class="back" onclick="nav('home')">${IC.back}</button><h2 style="font-size:16px;font-weight:500">${t('mySequences')}</h2><span style="font-size:12px;color:var(--t3);margin-left:auto">${t('total')} ${seqs.length}</span></div>
 <div style="display:flex;gap:8px"><div class="search-wrap">${IC.search}<input class="search-in" placeholder="${t('searchSequences')}" value="${state.listSearch}" oninput="state.listSearch=this.value;render()"></div></div></div>
-<div class="list-filt"><button class="pill ${state.listFilter==='all'?'on':''}" onclick="state.listFilter='all';render()">${t('all')}</button>${styles.map(s=>`<button class="pill ${state.listFilter===s?'on':''}" onclick="state.listFilter='${s}';render()">${t(s)}</button>`).join('')}</div>
+<div class="list-filt"><button class="pill ${state.listFilter==='all'?'on':''}" onclick="state.listFilter='all';render()">${t('all')}</button>${styles.map(s=>`<button class="pill ${state.listFilter===s?'on-'+s:''}" onclick="state.listFilter='${s}';render()">${t(s)}</button>`).join('')}</div>
 <div class="list-sort">${['recent','name','duration'].map(s=>`<button class="sort-btn ${state.listSort===s?'on':''}" onclick="state.listSort='${s}';render()">${t(s==='name'?'nameSort':s==='duration'?'durationSort':'recent')}</button>`).join('')}</div>
 <div class="list-body">${filtered.map(s=>`<div class="swipe-wrap"><div class="swipe-del" onclick="event.stopPropagation();deleteSeq('${s.id}')">${state.lang==='ko'?'삭제':'Delete'}</div><div class="swipe-inner" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div>${s.tags&&s.tags.length?`<div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">${s.tags.map(tg=>`<span style="font-size:11px;background:var(--bg2);color:var(--t2);padding:2px 6px;border-radius:4px">${tg}</span>`).join('')}</div>`:''}<p class="seq-time">${timeAgo(s.updatedAt)}</p></div></div>`).join('')}${filtered.length===0?`<p style="text-align:center;padding:40px 0;color:var(--t3);font-size:13px">${state.listSearch?'No results':'No sequences yet'}</p>`:''}</div>`;
 }
@@ -665,10 +686,10 @@ function renderAI(){
   return `
 <div class="ai-hdr"><button class="back" onclick="nav('home')">${IC.back}</button><h2 style="font-size:16px;font-weight:500">${t('aiSequenceGenerator')}</h2></div>
 <div class="ai-form">
-<div class="fg"><p class="fg-lbl">${t('yogaStyle')}</p><div class="chip-group">${styles.map(s=>`<button class="pill ${state.aiStyle===s?'on':''}" onclick="state.aiStyle='${s}';render()">${t(s)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('yogaStyle')}</p><div class="chip-group">${styles.map(s=>`<button class="pill ${state.aiStyle===s?'on-'+s:''}" onclick="state.aiStyle='${s}';render()">${t(s)}</button>`).join('')}</div></div>
 <div class="fg"><p class="fg-lbl">${t('duration')}</p><div class="dur-grid">${[30,60,90].map(d=>`<div class="dur-card ${state.aiDur===d?'on':''}" onclick="state.aiDur=${d};render()"><span class="dur-num">${d}</span><span class="dur-unit">${t('min')}</span></div>`).join('')}</div></div>
-<div class="fg"><p class="fg-lbl">${t('level')}</p><div class="chip-group">${levels.map(l=>`<button class="pill ${state.aiLevel===l?'on':''}" onclick="state.aiLevel='${l}';render()">${t(l)}</button>`).join('')}</div></div>
-<div class="fg"><p class="fg-lbl">${t('focusArea')} <span class="fg-opt">(${t('optional')})</span></p><div class="chip-group">${focus.map(f=>`<button class="pill ${state.aiFocus.includes(f)?'on-alt':''}" onclick="toggleFocus('${f}')">${t(f)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('level')}</p><div class="chip-group">${levels.map(l=>`<button class="pill ${state.aiLevel===l?'on-'+l:''}" onclick="state.aiLevel='${l}';render()">${t(l)}</button>`).join('')}</div></div>
+<div class="fg"><p class="fg-lbl">${t('focusArea')} <span class="fg-opt">(${t('optional')})</span></p><div class="chip-group">${focus.map(f=>`<button class="pill ${state.aiFocus.includes(f)?'on-focus':''}" onclick="toggleFocus('${f}')">${t(f)}</button>`).join('')}</div></div>
 <div class="fg"><p class="fg-lbl">${t('peakPoseInput')} <span class="fg-opt">(${t('optional')})</span></p><input class="input" placeholder="${t('peakPlaceholder')}" value="${state.aiPeak}" oninput="state.aiPeak=this.value"><p class="fg-hint">${t('aiBuildToward')}</p></div>
 <div class="fg"><p class="fg-lbl">${t('additionalNotes')} <span class="fg-opt">(${t('optional')})</span></p><textarea class="textarea" placeholder="${t('notesPlaceholder')}" oninput="state.aiNotes=this.value">${state.aiNotes}</textarea></div>
 <button class="gen-btn" onclick="aiGenerate()" ${state.aiLoading?'disabled':''}>${state.aiLoading?'<span class="spinner"></span><span>Generating...</span>':`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2.5 5h5l-4 3.5 1.5 5.5L9 12.5 4 16l1.5-5.5-4-3.5h5z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" fill="none"/></svg><span>${t('generateSequence')}</span>`}</button>
@@ -1095,14 +1116,19 @@ function bindEvents(){
   document.addEventListener('click',function(e){if(!e.target.closest('.sec-add-wrap'))hideSecMenus();});
 
   // Swipe to delete
-  let swTarget=null,startX=0,startY=0,curX=0,locked=false;
+  let swTarget=null,swWrap=null,startX=0,startY=0,curX=0,locked=false;
+  function closeAllSwipes(except){
+    document.querySelectorAll('.swipe-inner.open').forEach(el=>{
+      if(el!==except){el.classList.remove('open');el.closest('.swipe-wrap')?.classList.remove('revealing');}
+    });
+  }
   document.addEventListener('touchstart',function(e){
     const inner=e.target.closest('.swipe-inner');
-    if(!inner)return;
-    // Close any open swipes first
-    document.querySelectorAll('.swipe-inner.open').forEach(el=>{if(el!==inner)el.classList.remove('open');});
-    swTarget=inner;startX=e.touches[0].clientX;startY=e.touches[0].clientY;curX=0;locked=false;
-    inner.classList.add('swiping');
+    if(!inner){closeAllSwipes(null);return;}
+    closeAllSwipes(inner);
+    swTarget=inner;swWrap=inner.closest('.swipe-wrap');
+    startX=e.touches[0].clientX;startY=e.touches[0].clientY;curX=0;locked=false;
+    swTarget.classList.add('swiping');
   },{passive:true});
   document.addEventListener('touchmove',function(e){
     if(!swTarget)return;
@@ -1114,15 +1140,16 @@ function bindEvents(){
     const offset=isOpen?dx-80:dx;
     curX=Math.max(-80,Math.min(0,offset));
     swTarget.style.transform=`translateX(${curX}px)`;
+    if(curX<-5&&swWrap)swWrap.classList.add('revealing');
     if(Math.abs(dx)>5)e.preventDefault();
   },{passive:false});
   document.addEventListener('touchend',function(){
     if(!swTarget)return;
     swTarget.classList.remove('swiping');
     swTarget.style.transform='';
-    if(curX<-40)swTarget.classList.add('open');
-    else swTarget.classList.remove('open');
-    swTarget=null;
+    if(curX<-40){swTarget.classList.add('open');if(swWrap)swWrap.classList.add('revealing');}
+    else{swTarget.classList.remove('open');if(swWrap)swWrap.classList.remove('revealing');}
+    swTarget=null;swWrap=null;
   },{passive:true});
 }
 
