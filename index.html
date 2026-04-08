@@ -33,11 +33,11 @@
 --tr:150ms ease;
 }
 [data-theme=light]{
---bg:#fff;--bg2:#fafafa;--bg3:#f0f0f0;--bgApp:#f5f5f5;
---t1:#1a1a1a;--t2:#888;--t3:#aaa;
+--bg:#f0efe8;--bg2:#e8e7e0;--bg3:#dddcd5;--bgApp:#e6e5de;
+--t1:#2a2a28;--t2:#7a7a72;--t3:#a0a098;
 --bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.12);
---card:rgba(255,255,255,1);--cardBd:rgba(0,0,0,.07);
---navBg:rgba(255,255,255,.9);--navAct:#4A9A30;--navIn:#aaa;
+--card:rgba(245,244,238,1);--cardBd:rgba(0,0,0,.07);
+--navBg:rgba(240,239,232,.92);--navAct:#4A9A30;--navIn:#a0a098;
 --pillAct:#70C8B0;--pillActT:#0a3a2a;--pillIn:#f0f0f0;--pillInT:#888;
 }
 [data-theme=dark]{
@@ -49,6 +49,8 @@
 --pillAct:#70C8B0;--pillActT:#0a3a2a;--pillIn:rgba(255,255,255,.06);--pillInT:#888;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+.app{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.app input,.app textarea,.app [contenteditable]{-webkit-user-select:text;user-select:text}
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:var(--sans);background:#e0e0e0;color:var(--t1);line-height:1.6;min-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center}
 [data-theme=dark] body{background:#080808}
@@ -128,6 +130,11 @@ input,select,textarea{font-family:inherit}
 .act-t{font-size:14px;font-weight:500;margin-top:10px}
 .act-d{font-size:12px;margin-top:2px}
 .seq-card{margin:0 20px 10px;cursor:pointer}
+.swipe-wrap{position:relative;overflow:hidden;border-radius:var(--r-lg);margin-bottom:8px}
+.swipe-del{position:absolute;right:0;top:0;bottom:0;width:80px;display:flex;align-items:center;justify-content:center;background:#E53935;color:#fff;font-size:13px;font-weight:500;border-radius:0 var(--r-lg) var(--r-lg) 0;z-index:1}
+.swipe-inner{position:relative;z-index:2;transition:transform .25s cubic-bezier(.25,.1,.25,1);background:var(--card);border:.5px solid var(--cardBd);border-radius:var(--r-lg);padding:14px 16px}
+.swipe-inner.swiping{transition:none}
+.swipe-inner.open{transform:translateX(-80px)}
 .seq-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .seq-info{flex:1;min-width:0}
 .seq-title{font-size:15px;font-weight:500;color:var(--t1)}
@@ -561,7 +568,6 @@ function render(){
   }
   app.insertBefore(div,document.getElementById('nav'));
   renderNav();
-  bindEvents();
 }
 
 function renderNav(){
@@ -583,7 +589,7 @@ function renderHome(){
 <div class="act-card act-new" onclick="lastPage=state.page;state.editId=null;state.page='editor';render()">${IC.plus}<p class="act-t">${t('newSequence')}</p><p class="act-d">${t('createFromScratch')}</p></div>
 <div class="act-card act-ai" onclick="nav('ai')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2.5 5h5l-4 3.5 1.5 5.5L11 13.5 6 17l1.5-5.5-4-3.5h5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg><p class="act-t">${t('aiGenerate')}</p><p class="act-d">${t('claudeBuilds')}</p></div></div></div>
 <div style="padding:0 0 12px"><div class="sec-hdr"><p class="sec-title">${t('recentSequences')}</p><p class="sec-link" onclick="nav('sequences')">${t('viewAll')}</p></div>
-<div class="stagger">${seqs.slice(0,3).map(s=>`<div class="card seq-card" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div><p class="seq-time">${timeAgo(s.updatedAt)}</p></div>`).join('')}</div></div>`;
+<div class="stagger">${seqs.slice(0,3).map(s=>`<div class="swipe-wrap" style="margin:0 20px 10px"><div class="swipe-del" onclick="event.stopPropagation();deleteSeq('${s.id}')">${state.lang==='ko'?'삭제':'Delete'}</div><div class="swipe-inner" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div><p class="seq-time">${timeAgo(s.updatedAt)}</p></div></div>`).join('')}</div></div>`;
 }
 
 function renderList(){
@@ -599,7 +605,7 @@ function renderList(){
 <div style="display:flex;gap:8px"><div class="search-wrap">${IC.search}<input class="search-in" placeholder="${t('searchSequences')}" value="${state.listSearch}" oninput="state.listSearch=this.value;render()"></div></div></div>
 <div class="list-filt"><button class="pill ${state.listFilter==='all'?'on':''}" onclick="state.listFilter='all';render()">${t('all')}</button>${styles.map(s=>`<button class="pill ${state.listFilter===s?'on':''}" onclick="state.listFilter='${s}';render()">${t(s)}</button>`).join('')}</div>
 <div class="list-sort">${['recent','name','duration'].map(s=>`<button class="sort-btn ${state.listSort===s?'on':''}" onclick="state.listSort='${s}';render()">${t(s==='name'?'nameSort':s==='duration'?'durationSort':'recent')}</button>`).join('')}</div>
-<div class="list-body">${filtered.map(s=>`<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div>${s.tags&&s.tags.length?`<div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">${s.tags.map(tg=>`<span style="font-size:11px;background:var(--bg2);color:var(--t2);padding:2px 6px;border-radius:4px">${tg}</span>`).join('')}</div>`:''}<p class="seq-time">${timeAgo(s.updatedAt)}</p></div>`).join('')}${filtered.length===0?`<p style="text-align:center;padding:40px 0;color:var(--t3);font-size:13px">${state.listSearch?'No results':'No sequences yet'}</p>`:''}</div>`;
+<div class="list-body">${filtered.map(s=>`<div class="swipe-wrap"><div class="swipe-del" onclick="event.stopPropagation();deleteSeq('${s.id}')">${state.lang==='ko'?'삭제':'Delete'}</div><div class="swipe-inner" onclick="lastPage=state.page;state.editId='${s.id}';state.page='editor';render()"><div class="seq-top"><div class="seq-info"><p class="seq-title">${state.lang==='ko'&&s.titleKo?s.titleKo:s.title}</p><p class="seq-meta">${t(s.style)} / ${s.duration}${t('min')} / ${poseCount(s.poses)}${t('poses')}</p></div><div class="seq-badges">${s.source==='ai'?'<span class="badge b-ai">AI</span>':''}<span class="badge ${getLvlCls(s.level)}">${getLvlT(s.level)}</span></div></div>${s.tags&&s.tags.length?`<div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">${s.tags.map(tg=>`<span style="font-size:11px;background:var(--bg2);color:var(--t2);padding:2px 6px;border-radius:4px">${tg}</span>`).join('')}</div>`:''}<p class="seq-time">${timeAgo(s.updatedAt)}</p></div></div>`).join('')}${filtered.length===0?`<p style="text-align:center;padding:40px 0;color:var(--t3);font-size:13px">${state.listSearch?'No results':'No sequences yet'}</p>`:''}</div>`;
 }
 
 function renderEditor(){
@@ -671,7 +677,7 @@ function renderAI(){
 
 function renderSettings(){
   const key=getApiKey();
-  const naming=[{v:'en-sanskrit',l:t('enSanskrit')},{v:'en',l:t('enOnly')},{v:'sanskrit',l:t('skOnly')},{v:'ko-sanskrit',l:t('koSanskrit')}];
+  const naming=[{v:'ko-sanskrit',l:t('koSanskrit')},{v:'en-sanskrit',l:t('enSanskrit')}];
   return `
 <div class="set-hdr"><button class="back" onclick="nav('home')">${IC.back}</button><h2 style="font-size:16px;font-weight:500">${t('settings')}</h2></div>
 <div class="set-body">
@@ -1080,8 +1086,44 @@ function importData(){
 let delConfirm=false;
 function deleteData(){if(delConfirm){Object.values(KEYS).forEach(k=>localStorage.removeItem(k));delConfirm=false;initSample();loadSettings();render();}else{delConfirm=true;setTimeout(()=>{delConfirm=false},3000);const el=document.querySelector('.dng');if(el)el.textContent=t('confirmDelete');}}
 
+function deleteSeq(id){
+  const seqs=getSeqs().filter(s=>s.id!==id);
+  LS.set(KEYS.SEQ,seqs);render();
+}
+
 function bindEvents(){
   document.addEventListener('click',function(e){if(!e.target.closest('.sec-add-wrap'))hideSecMenus();});
+
+  // Swipe to delete
+  let swTarget=null,startX=0,startY=0,curX=0,locked=false;
+  document.addEventListener('touchstart',function(e){
+    const inner=e.target.closest('.swipe-inner');
+    if(!inner)return;
+    // Close any open swipes first
+    document.querySelectorAll('.swipe-inner.open').forEach(el=>{if(el!==inner)el.classList.remove('open');});
+    swTarget=inner;startX=e.touches[0].clientX;startY=e.touches[0].clientY;curX=0;locked=false;
+    inner.classList.add('swiping');
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!swTarget)return;
+    const dx=e.touches[0].clientX-startX;
+    const dy=e.touches[0].clientY-startY;
+    if(!locked&&Math.abs(dy)>Math.abs(dx)){swTarget.classList.remove('swiping');swTarget=null;return;}
+    locked=true;
+    const isOpen=swTarget.classList.contains('open');
+    const offset=isOpen?dx-80:dx;
+    curX=Math.max(-80,Math.min(0,offset));
+    swTarget.style.transform=`translateX(${curX}px)`;
+    if(Math.abs(dx)>5)e.preventDefault();
+  },{passive:false});
+  document.addEventListener('touchend',function(){
+    if(!swTarget)return;
+    swTarget.classList.remove('swiping');
+    swTarget.style.transform='';
+    if(curX<-40)swTarget.classList.add('open');
+    else swTarget.classList.remove('open');
+    swTarget=null;
+  },{passive:true});
 }
 
 // Init
@@ -1090,7 +1132,7 @@ const APP_VER='1.5.0';
 if(localStorage.getItem('yoga_ver')!==APP_VER){
   LS.del(KEYS.SET);localStorage.setItem('yoga_ver',APP_VER);saveSettings();
 }
-loadSettings();render();
+loadSettings();render();bindEvents();
 
 // PWA: Register service worker
 if ('serviceWorker' in navigator) {
