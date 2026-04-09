@@ -507,7 +507,7 @@ en:{appName:'Yoga Flow',home:'Home',sequences:'Sequences',settings:'Settings',ai
 ko:{appName:'요가 플로우',home:'홈',sequences:'시퀀스',settings:'설정',ai:'AI',todayClasses:'오늘의 수업',addClass:'수업 추가',next:'다음',newSequence:'새 시퀀스',createFromScratch:'직접 만들기',aiGenerate:'AI 생성',claudeBuilds:'Claude가 만들어줄게요',recentSequences:'최근 시퀀스',viewAll:'전체 보기',sequenceEditor:'시퀀스 에디터',addPose:'동작 추가',aiSuggest:'AI 추천',addPeakPose:'피크포즈 추가',save:'저장',poses:'개 동작',min:'분',breaths:'회 호흡',rounds:'라운드',warmup:'웜업',buildup:'빌드업',peakPose:'피크포즈',cooldown:'쿨다운',optional:'선택',all:'전체',aiSequenceGenerator:'AI 시퀀스 생성',yogaStyle:'요가 스타일',duration:'소요 시간',level:'난이도',focusArea:'집중 부위',peakPoseInput:'피크포즈',additionalNotes:'추가 요청',generateSequence:'시퀀스 생성하기',peakPlaceholder:'예: 킹 피전, 크로우 포즈...',notesPlaceholder:'예: 인버전 제외, 프라나야마로 시작...',aiBuildToward:'AI가 이 포즈를 향해 시퀀스를 구성합니다',mySequences:'내 시퀀스',searchSequences:'시퀀스 검색...',recent:'최신순',nameSort:'이름순',durationSort:'시간순',total:'총',aiConfiguration:'AI 설정',claudeApiKey:'Claude API 키',connected:'연결됨',notConnected:'미연결',storedLocally:'브라우저에만 안전하게 저장됩니다',aiModel:'AI 모델',usedForGeneration:'시퀀스 생성에 사용',general:'일반',language:'언어',darkMode:'다크 모드',followSystem:'시스템 설정 따르기',poseNaming:'동작 이름 표기',enSanskrit:'영어 + 산스크리트어',enOnly:'영어만',skOnly:'산스크리트어만',koSanskrit:'한국어 + 산스크리트어',data:'데이터',exportData:'데이터 내보내기',exportDesc:'모든 시퀀스를 JSON으로 다운로드',importData:'데이터 가져오기',importDesc:'JSON 파일에서 복원',deleteAll:'모든 데이터 삭제',deleteDesc:'모든 시퀀스와 수업 삭제',about:'정보',version:'버전',beginner:'초급',intermediate:'중급',advanced:'고급',allLevels:'모든 레벨',vinyasa:'빈야사',hatha:'하타',yin:'인요가',restorative:'리스토러티브',ashtanga:'아쉬탕가',power:'파워',hipOpener:'골반 열기',backBend:'후굴',core:'코어',balance:'밸런스',twist:'트위스트',shoulder:'어깨',hamstring:'햄스트링',inversion:'인버전',cancel:'취소',confirmDelete:'다시 탭하면 삭제됩니다',show:'보기',hide:'숨기기',nameEN:'이름 (영어)',nameKO:'이름 (한국어)',sanskrit:'산스크리트어',hold:'유지',side:'방향',both:'양쪽',leftRight:'좌+우',section:'섹션',noClasses:'오늘 수업이 없습니다',hoursAgo:'{n}시간 전',yesterday:'어제',daysAgo:'{n}일 전',edited:'수정',created:'생성',className:'수업 이름',classTime:'시작 시간',classEndTime:'종료 시간',classDay:'요일',linkedSequence:'연결된 시퀀스',noSequence:'없음',editClass:'수업 수정',newClass:'새 수업',deleteClass:'수업 삭제',mon:'월',tue:'화',wed:'수',thu:'목',fri:'금',sat:'토',sun:'일',everyDay:'매일',saveClass:'저장'}
 };
 
-let state={page:'home',lang:'ko',theme:'dark',poseNaming:'ko-sanskrit',aiModel:'claude-sonnet-4-20250514',editId:null,edFilter:'all',listFilter:'all',listSort:'recent',listSearch:'',aiStyle:'vinyasa',aiDur:60,aiLevel:'intermediate',aiFocus:[],aiPeak:'',aiNotes:'',aiLoading:false};
+let state={page:'home',lang:'ko',theme:'dark',poseNaming:'ko-sanskrit',aiModel:'claude-sonnet-4-6',editId:null,edFilter:'all',listFilter:'all',listSort:'recent',listSearch:'',aiStyle:'vinyasa',aiDur:60,aiLevel:'intermediate',aiFocus:[],aiPeak:'',aiNotes:'',aiLoading:false};
 
 function loadSettings(){
   const s=LS.get(KEYS.SET);
@@ -749,7 +749,7 @@ function renderSettings(){
 <div class="set-card"><div class="set-card-hdr"><p class="set-it">${t('claudeApiKey')}</p><span class="badge ${key?'b-conn':'b-disc'}">${key?t('connected'):t('notConnected')}</span></div>
 <div class="api-row"><input class="input api-in" type="password" id="api-input" value="${key}" placeholder="sk-ant-..." onblur="setApiKey(this.value);render()"><button class="btn-sec" style="padding:4px 12px;font-size:12px" onclick="const i=document.getElementById('api-input');i.type=i.type==='password'?'text':'password'">${t('show')}</button></div>
 <p class="set-hint">${t('storedLocally')}</p></div>
-<div class="set-card"><div class="set-row"><div><p class="set-it">${t('aiModel')}</p><p class="set-hint">${t('usedForGeneration')}</p></div><select class="select" onchange="state.aiModel=this.value;saveSettings()"><option value="claude-sonnet-4-20250514" ${state.aiModel.includes('sonnet')?'selected':''}>Claude Sonnet 4</option><option value="claude-haiku-4-5-20251001" ${state.aiModel.includes('haiku')?'selected':''}>Claude Haiku 4.5</option></select></div></div>
+<div class="set-card"><div class="set-row"><div><p class="set-it">${t('aiModel')}</p><p class="set-hint">${t('usedForGeneration')}</p></div><select class="select" onchange="state.aiModel=this.value;saveSettings()"><option value="claude-sonnet-4-6" ${state.aiModel==='claude-sonnet-4-6'?'selected':''}>Claude Sonnet 4.6</option><option value="claude-haiku-4-5-20251001" ${state.aiModel.includes('haiku')?'selected':''}>Claude Haiku 4.5</option></select></div></div>
 
 <p class="set-sec">${t('general').toUpperCase()}</p>
 <div class="set-grp">
@@ -1131,10 +1131,16 @@ ${state.aiPeak?`- Peak pose: ${state.aiPeak}`:''}
 ${state.aiNotes?`- Additional notes: ${state.aiNotes}`:''}
 Return ONLY a JSON array of poses. Each pose: {name, nameKo, sanskrit, section (warmup/buildup/peak/cooldown), hold (e.g. "5 breaths"), side (both/left-right)}. Valid JSON only.`;
     const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:state.aiModel,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();const txt=data.content?.[0]?.text||'';
+    const data=await res.json();
+    if(data.error){
+      const msg=data.error.message||JSON.stringify(data.error);
+      alert(state.lang==='ko'?`API 오류: ${msg}`:`API error: ${msg}`);
+      state.aiLoading=false;render();return;
+    }
+    const txt=data.content?.[0]?.text||'';
     const clean=txt.replace(/```json\n?|```/g,'').trim();const poses=JSON.parse(clean);
     if(Array.isArray(poses)){const ns={id:uid(),title:`AI ${state.aiStyle} sequence`,titleKo:`AI ${t(state.aiStyle)} 시퀀스`,style:state.aiStyle,duration:state.aiDur,level:state.aiLevel,tags:[],source:'ai',poses:poses.map(p=>({...p,id:uid()}))};saveSeq(ns);lastPage=state.page;state.editId=ns.id;state.page='editor';}
-  }catch(e){console.error(e);alert(state.lang==='ko'?'생성에 실패했습니다. API 키를 확인해주세요.':'Generation failed. Check your API key.');}
+  }catch(e){console.error(e);alert(state.lang==='ko'?`생성 실패: ${e.message||e}`:`Generation failed: ${e.message||e}`);}
   state.aiLoading=false;render();
 }
 
