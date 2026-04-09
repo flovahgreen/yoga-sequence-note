@@ -640,7 +640,7 @@ function renderNav(){
 }
 
 function renderHome(){
-  const seqs=getSeqs();const today=new Date().getDay();const cls=getClasses().filter(c=>Array.isArray(c.days)?c.days.includes(today):c.dayOfWeek===today);
+  const seqs=getSeqs();const today=new Date().getDay();const cls=getClasses().filter(c=>Array.isArray(c.days)?c.days.includes(today):c.dayOfWeek===today).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
   const now=new Date();const dateStr=now.toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US',{weekday:'short',month:state.lang==='ko'?'numeric':'short',day:'numeric'}); 
   return `
 <div class="home-hdr"><div class="home-logo"><svg class="home-lotus" viewBox="120 130 280 210" fill="none"><g transform="translate(256,260)"><ellipse cx="0" cy="-70" rx="28" ry="72" fill="#C8E6A0" opacity="0.9"/><ellipse cx="-45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(-25)"/><ellipse cx="-80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(-50)"/><ellipse cx="45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(25)"/><ellipse cx="80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(50)"/><circle cx="0" cy="-20" r="12" fill="#E8F5D0" opacity="0.5"/><path d="M-85,18 Q-42,32 0,26 Q42,32 85,18" stroke="#B2E0D6" stroke-width="3" fill="none" opacity="0.4"/></g></svg><div><p class="app-name">${t('appName').toUpperCase()}</p><h1>Yoga Flow</h1></div></div>
