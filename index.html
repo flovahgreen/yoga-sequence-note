@@ -121,7 +121,7 @@ input,select,textarea{font-family:inherit}
 /* Home */
 .home-hdr{padding:24px 20px 16px;display:flex;justify-content:space-between;align-items:flex-start}
 .home-logo{display:flex;align-items:center;gap:10px}
-.home-lotus{width:36px;height:36px;flex-shrink:0}
+.home-lotus{width:36px;height:36px;flex-shrink:0;display:block}
 .home-hdr h1{font-family:var(--serif);font-size:22px;font-weight:300;margin-top:4px;letter-spacing:-.2px;line-height:1.2}
 .app-name{font-size:10px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
 .icon-btn{width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--t2)}
@@ -532,7 +532,7 @@ function poseSub(p){const n=state.poseNaming;if(n==='ko-sanskrit')return p.nameK
 function poseCount(poses){return poses.reduce((c,p)=>c+(p.type==='flow'?(p.poses||[]).length:1),0)}
 
 function initSample(){
-  if(LS.get(KEYS.SEQ))return;
+  if(LS.get(KEYS.SEQ)||LS.get(KEYS.CLS))return;
   const seqs=[
     {id:uid(),title:'Morning vinyasa flow',titleKo:'모닝 빈야사 플로우',style:'vinyasa',duration:60,level:'intermediate',tags:['hip opener','morning'],source:'manual',poses:[
       {id:uid(),name:"Child's pose",nameKo:'아이 자세',sanskrit:'Balasana',section:'warmup',hold:'5 breaths',side:'both'},
@@ -643,7 +643,7 @@ function renderHome(){
   const seqs=getSeqs();const today=new Date().getDay();const cls=getClasses().filter(c=>Array.isArray(c.days)?c.days.includes(today):c.dayOfWeek===today);
   const now=new Date();const dateStr=now.toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US',{weekday:'short',month:state.lang==='ko'?'numeric':'short',day:'numeric'}); 
   return `
-<div class="home-hdr"><div class="home-logo"><svg class="home-lotus" viewBox="130 140 260 200" fill="none"><g transform="translate(256,260)"><ellipse cx="0" cy="-70" rx="28" ry="72" fill="#C8E6A0" opacity="0.9"/><ellipse cx="-45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(-25)"/><ellipse cx="-80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(-50)"/><ellipse cx="45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(25)"/><ellipse cx="80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(50)"/><circle cx="0" cy="-20" r="12" fill="#E8F5D0" opacity="0.5"/><path d="M-85,18 Q-42,32 0,26 Q42,32 85,18" stroke="#B2E0D6" stroke-width="3" fill="none" opacity="0.4"/></g></svg><div><p class="app-name">${t('appName').toUpperCase()}</p><h1>Yoga Flow</h1></div></div>
+<div class="home-hdr"><div class="home-logo"><svg class="home-lotus" viewBox="120 130 280 210" fill="none"><g transform="translate(256,260)"><ellipse cx="0" cy="-70" rx="28" ry="72" fill="#C8E6A0" opacity="0.9"/><ellipse cx="-45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(-25)"/><ellipse cx="-80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(-50)"/><ellipse cx="45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(25)"/><ellipse cx="80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(50)"/><circle cx="0" cy="-20" r="12" fill="#E8F5D0" opacity="0.5"/><path d="M-85,18 Q-42,32 0,26 Q42,32 85,18" stroke="#B2E0D6" stroke-width="3" fill="none" opacity="0.4"/></g></svg><div><p class="app-name">${t('appName').toUpperCase()}</p><h1>Yoga Flow</h1></div></div>
 <button class="icon-btn" onclick="nav('settings')">${IC.cog}</button></div>
 <div style="padding:0 0 12px"><div class="sec-hdr"><p class="sec-title">${t('todayClasses')}</p><p class="sec-meta">${dateStr}</p></div>
 <div class="today-scroll">${cls.length?cls.map((c,i)=>`<div class="cls-card ${i===0?'cls-next':''}" onclick="openClassModal('${c.id}')"><div class="cls-top"><span class="cls-time">${c.time}${c.endTime?' - '+c.endTime:''}</span>${i===0?`<span class="b-next">${t('next')}</span>`:''}</div><p class="cls-name">${state.lang==='ko'?(c.nameKo||c.name):c.name}</p></div>`).join(''):`<div class="cls-card"><p style="font-size:13px;color:var(--t3)">${t('noClasses')}</p></div>`}
@@ -1223,9 +1223,11 @@ function bindEvents(){
 
 // Init
 initSample();
-const APP_VER='1.5.0';
+const APP_VER='1.6.0';
 if(localStorage.getItem('yoga_ver')!==APP_VER){
-  LS.del(KEYS.SET);localStorage.setItem('yoga_ver',APP_VER);saveSettings();
+  // Preserve existing data, only refresh default settings if none exist
+  if(!LS.get(KEYS.SET))saveSettings();
+  localStorage.setItem('yoga_ver',APP_VER);
 }
 loadSettings();render();bindEvents();
 

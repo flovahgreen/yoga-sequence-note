@@ -1,21 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="100" fill="#141414"/>
-  <!-- Lotus flower -->
-  <g transform="translate(256,280)">
-    <!-- Center petal -->
-    <ellipse cx="0" cy="-70" rx="28" ry="75" fill="#C8E6A0" opacity="0.9"/>
-    <!-- Left petals -->
-    <ellipse cx="-45" cy="-50" rx="26" ry="68" fill="#A0D8A0" opacity="0.8" transform="rotate(-25)"/>
-    <ellipse cx="-80" cy="-25" rx="24" ry="60" fill="#70C8B0" opacity="0.7" transform="rotate(-50)"/>
-    <!-- Right petals -->
-    <ellipse cx="45" cy="-50" rx="26" ry="68" fill="#A0D8A0" opacity="0.8" transform="rotate(25)"/>
-    <ellipse cx="80" cy="-25" rx="24" ry="60" fill="#70C8B0" opacity="0.7" transform="rotate(50)"/>
-    <!-- Inner glow -->
-    <circle cx="0" cy="-20" r="14" fill="#E8F5D0" opacity="0.6"/>
-    <!-- Base / water line -->
-    <path d="M-90,20 Q-45,35 0,28 Q45,35 90,20" stroke="#70C8B0" stroke-width="3" fill="none" opacity="0.5"/>
-    <path d="M-70,30 Q-35,42 0,36 Q35,42 70,30" stroke="#70C8B0" stroke-width="2" fill="none" opacity="0.3"/>
+  <g transform="translate(256,260)">
+    <ellipse cx="0" cy="-70" rx="28" ry="72" fill="#C8E6A0" opacity="0.9"/>
+    <ellipse cx="-45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(-25)"/>
+    <ellipse cx="-80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(-50)"/>
+    <ellipse cx="45" cy="-50" rx="26" ry="65" fill="#B2E0D6" opacity="0.85" transform="rotate(25)"/>
+    <ellipse cx="80" cy="-25" rx="23" ry="58" fill="#B8B4E8" opacity="0.7" transform="rotate(50)"/>
+    <circle cx="0" cy="-20" r="12" fill="#E8F5D0" opacity="0.5"/>
+    <path d="M-85,18 Q-42,32 0,26 Q42,32 85,18" stroke="#B2E0D6" stroke-width="3" fill="none" opacity="0.4"/>
   </g>
-  <!-- App name subtle text -->
-  <text x="256" y="420" font-family="sans-serif" font-size="36" font-weight="300" text-anchor="middle" fill="#C8E6A0" opacity="0.7">YOGA FLOW</text>
 </svg>
