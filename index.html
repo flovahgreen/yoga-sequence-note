@@ -1130,7 +1130,7 @@ ${state.aiFocus.length?`- Focus areas: ${state.aiFocus.join(', ')}`:''}
 ${state.aiPeak?`- Peak pose: ${state.aiPeak}`:''}
 ${state.aiNotes?`- Additional notes: ${state.aiNotes}`:''}
 Return ONLY a JSON array of poses. Each pose: {name, nameKo, sanskrit, section (warmup/buildup/peak/cooldown), hold (e.g. "5 breaths"), side (both/left-right)}. Valid JSON only.`;
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:state.aiModel,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:state.aiModel,max_tokens:4096,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     if(data.error){
       const msg=data.error.message||JSON.stringify(data.error);
@@ -1138,7 +1138,13 @@ Return ONLY a JSON array of poses. Each pose: {name, nameKo, sanskrit, section (
       state.aiLoading=false;render();return;
     }
     const txt=data.content?.[0]?.text||'';
-    const clean=txt.replace(/```json\n?|```/g,'').trim();const poses=JSON.parse(clean);
+    let clean=txt.replace(/```json\n?|```/g,'').trim();
+    // Fix truncated JSON: close open braces/brackets
+    if(!clean.endsWith(']')){
+      const lastComplete=clean.lastIndexOf('}');
+      if(lastComplete>0)clean=clean.substring(0,lastComplete+1)+']';
+    }
+    const poses=JSON.parse(clean);
     if(Array.isArray(poses)){const ns={id:uid(),title:`AI ${state.aiStyle} sequence`,titleKo:`AI ${t(state.aiStyle)} 시퀀스`,style:state.aiStyle,duration:state.aiDur,level:state.aiLevel,tags:[],source:'ai',poses:poses.map(p=>({...p,id:uid()}))};saveSeq(ns);lastPage=state.page;state.editId=ns.id;state.page='editor';}
   }catch(e){console.error(e);alert(state.lang==='ko'?`생성 실패: ${e.message||e}`:`Generation failed: ${e.message||e}`);}
   state.aiLoading=false;render();
